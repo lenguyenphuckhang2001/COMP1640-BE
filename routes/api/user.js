@@ -1,34 +1,13 @@
 var express = require('express')
 var router = express.Router()
 
-router.get('/', (req, res) => {
-    res.json({
-        message: 'Welcome to the API',
-    })
-})
+const { createUser, register } = require('../../controllers/UserController')
 
-router.post('/register', (req, res) => {
-    res.json({
-        message: 'Register',
-    })
-})
+//Get all users
+router.get('/')
 
-router.post('/login', (req, res) => {
-    res.json({
-        message: 'Login',
-    })
-})
+router.post('/register', register)
 
-router.patch('/:id', (req, res) => {
-    res.json({
-        message: 'Update',
-    })
-})
-
-router.delete('/:id', (req, res) => {
-    res.json({
-        message: 'Delete',
-    })
-})
+router.post('/login', createUser)
 
 module.exports = router

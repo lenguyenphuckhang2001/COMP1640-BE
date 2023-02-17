@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const { Role } = require('../../constants/role')
+const { Department } = require('../../constants/department')
 
 const userSchema = new mongoose.Schema(
     {
@@ -16,13 +18,17 @@ const userSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ['ADMIN', 'USER', 'QA'],
-            default: 'USER',
+            enum: [Role.ADMIN_ROLE, Role.USER_ROLE, Role.QA_ROLE],
+            default: Role.USER_ROLE,
         },
         department: {
             type: String,
-            enum: ['HR', 'IT', 'QA', 'SALES'],
-            default: 'HR',
+            enum: [
+                Department.IT_DEPARTMENT,
+                Department.ADMISSIONS_DEPARTMENT,
+                Department.TRAINNING_DEPARTMENT,
+            ],
+            default: Department.IT_DEPARTMENT,
         },
     },
     { timestamps: true }
