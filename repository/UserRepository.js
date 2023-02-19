@@ -2,6 +2,7 @@ const UserModel = require('../database/models/User')
 
 const findAllUsers = async () => {
     const users = await UserModel.find({})
+
     console.log(users)
     return users
 }

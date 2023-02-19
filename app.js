@@ -7,6 +7,7 @@ const { connectDatabase } = require('./database/connect')
 
 var indexRouter = require('./routes/index')
 const usersRouter = require('./routes/api/user')
+const tagRouter = require('./routes/api/tag')
 
 var app = express()
 
@@ -18,6 +19,9 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
+app.use('/tags', tagRouter)
+
+// /users/
 
 //connect to database
 ;(async () => {
