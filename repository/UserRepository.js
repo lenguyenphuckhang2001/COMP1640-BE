@@ -16,13 +16,13 @@ const findUserById = async (userId) => {
 };
 
 const createUser = async (user) => {
-  try {
-    const book = await UserModel.create(user);
-    return book;
-  } catch (error) {
-    console.log(error);
-  }
-};
+    try {
+        const users = await UserModel.create(user)
+        return users
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 module.exports = {
   findAllUsers,
