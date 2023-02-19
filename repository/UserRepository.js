@@ -9,8 +9,8 @@ const findAllUsers = async () => {
 
 const createUser = async (user) => {
     try {
-        const book = await UserModel.create(user)
-        return book
+        const users = await UserModel.create(user)
+        return users
     } catch (error) {
         console.log(error)
     }
