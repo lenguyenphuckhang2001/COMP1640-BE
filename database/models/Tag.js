@@ -5,6 +5,7 @@ const tagSchema = new mongoose.Schema(
         name: {
             type: String,
             required: true,
+            lowercase: true,
         },
         description: {
             type: String,
