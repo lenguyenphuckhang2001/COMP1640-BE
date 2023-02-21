@@ -1,26 +1,26 @@
-var express = require('express')
-var router = express.Router()
+var express = require('express');
+var router = express.Router();
 const {
-    createPost,
-    deletePost,
-    getAllPosts,
-    getPostById,
-    updatePost,
-    addComment,
-} = require('../../controllers/PostController')
+  createPost,
+  deletePost,
+  getAllPosts,
+  getPostById,
+  updatePost,
+  addComment,
+} = require('../../controllers/PostController');
 
-const avartarUploader = require('../../middlewares/avatarUpload')
+const avartarUploader = require('../../middlewares/avatarUpload');
 
-router.get('/', getAllPosts)
+router.get('/', getAllPosts);
 
-router.get('/:id', getPostById)
+router.get('/:id', getPostById);
 
-router.post('/', avartarUploader, createPost)
+router.post('/', avartarUploader, createPost);
 
-router.patch('/:id', updatePost)
+router.patch('/:id', updatePost);
 
-router.delete('/:id', deletePost)
+router.delete('/:id', deletePost);
 
-router.patch('/addComment/:id', addComment)
+router.patch('/addComment/:id', addComment);
 
-module.exports = router
+module.exports = router;
