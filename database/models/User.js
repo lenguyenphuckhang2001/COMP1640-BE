@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const { Role } = require('../../constants/role')
-const { Department } = require('../../constants/department')
+const mongoose = require("mongoose");
+const { Role } = require("../../constants/role");
+const { Department } = require("../../constants/department");
 
 const userSchema = new mongoose.Schema(
     {
@@ -9,13 +9,25 @@ const userSchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
+        fullname: {
+            type: String,
+            require: true,
+        },
         password: {
             type: String,
-            required: true,
+            required: false,
         },
         email: {
             type: String,
             required: true,
+        },
+        DoB: {
+            type: Date,
+            requied: true,
+        },
+        phonenumber: {
+            type: String,
+            requied: true,
         },
         role: {
             type: String,
@@ -36,6 +48,6 @@ const userSchema = new mongoose.Schema(
         },
     },
     { timestamps: true }
-)
+);
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model("User", userSchema);
