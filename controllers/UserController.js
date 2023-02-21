@@ -132,7 +132,7 @@ const login = async (req, res, next) => {
     
         res.json(token);
       } catch (error) {
-      console.log("🚀 ~ file: UserController.js:74 ~ login ~ error", error)
+        console.log("🚀 ~ file: UserController.js:64 ~ login ~ error", error)
         next(error);
       }
   };
