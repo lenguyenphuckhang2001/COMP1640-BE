@@ -34,16 +34,6 @@ const register = async (req, res, next) => {
 
 }
 
-const createUser = (req, res) => {
-    try {
-        if (!req.body) return res.sendStatus(400)
-        const user = req.body
-        const result = UserServices.createUser(user)
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 const login = async (req, res, next) => {
     try {
         let { email, password } = req.body;
@@ -71,7 +61,7 @@ const login = async (req, res, next) => {
     
         res.json(token);
       } catch (error) {
-      console.log("🚀 ~ file: UserController.js:74 ~ login ~ error", error)
+        console.log("🚀 ~ file: UserController.js:64 ~ login ~ error", error)
         next(error);
       }
   };
