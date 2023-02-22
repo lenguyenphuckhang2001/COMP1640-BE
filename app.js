@@ -23,7 +23,8 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
+// app.use(express.static(path.join(__dirname, 'public')))
+app.use('/images', express.static(path.join(__dirname, '/images')))
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
@@ -34,49 +35,6 @@ app.use('/posts', postRouter)
 ;(async () => {
     await connectDatabase()
 })()
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './images/')
-    },
-    filename: function (req, file, cb) {
-        cb(
-            null,
-            new Date().toISOString().replace(/:/g, '-') +
-                file.originalname +
-                '.jpg'
-        )
-    },
-})
-
-const fileFilter = (req, file, cb) => {
-    // reject a file
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true)
-    } else {
-        cb(null, false)
-    }
-}
-
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 1024 * 1024 * 5,
-    },
-    fileFilter: fileFilter,
-})
-app.post('/upload', upload.any(), (req, res, next) => {
-    // const file = req.file
-    // if (!file) {
-    //     const error = new Error('Please upload a file')
-    //     error.httpStatusCode = 400
-    //     return next(error)
-    // }
-    // res.send(file)
-    const { test } = req.body
-    console.log('🚀 ~ file: app.js:77 ~ app.post ~ test:', test)
-    console.log(req.files)
-})
 
 const options = {
     definition: {

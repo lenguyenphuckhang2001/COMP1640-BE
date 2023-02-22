@@ -9,11 +9,13 @@ const {
     addComment,
 } = require('../../controllers/PostController')
 
+const avartarUploader = require('../../middlewares/avatarUpload')
+
 router.get('/', getAllPosts)
 
 router.get('/:id', getPostById)
 
-router.post('/', createPost)
+router.post('/', avartarUploader, createPost)
 
 router.patch('/:id', updatePost)
 
