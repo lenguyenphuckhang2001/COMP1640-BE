@@ -13,7 +13,7 @@ const tagRouter = require('./routes/api/tag');
 const postRouter = require('./routes/api/post');
 const bookmarkRouter = require('./routes/api/bookmarks');
 
-var app = express();
+const multer = require('multer');
 
 app.use(logger('dev'));
 app.use(express.json());
