@@ -27,6 +27,7 @@ const findPostById = async (id) => {
         })
         .populate('comments.author', {
             username: 1,
+            email: 1,
         })
     return post
 }
@@ -42,10 +43,10 @@ const createPost = async (post) => {
 
 const updatePost = async (id, post) => {
     try {
-        const post = await Post.findByIdAndUpdate(id, post, {
+        const data = await Post.findByIdAndUpdate(id, post, {
             new: true,
         })
-        return post
+        return data
     } catch (error) {
         console.log(error)
     }
