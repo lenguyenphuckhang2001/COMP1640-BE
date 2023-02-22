@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose')
 const PostService = require('../services/PostServices')
 
 const getAllPosts = async (req, res) => {
@@ -43,7 +44,11 @@ const updatePost = async (req, res) => {
             return res.status(400).json({ error: 'Please provide a post id' })
         if (!req.body)
             return res.status(400).json({ error: 'Please provide a post' })
+
+        if (!mongoose.Types.ObjectId.isValid(id))
+            return res.status(400).json({ error: 'Invalid post id' })
         const updatedPost = await PostService.updatePost(id, req.body)
+
         return res.status(200).json(updatedPost)
     } catch (error) {
         return res.status(500).send(error.message)

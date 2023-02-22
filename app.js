@@ -15,6 +15,7 @@ const postRouter = require('./routes/api/post')
 const Post = require('./database/models/Post')
 const Tag = require('./database/models/Tag')
 const User = require('./database/models/User')
+const multer = require('multer')
 
 var app = express()
 
@@ -33,6 +34,49 @@ app.use('/posts', postRouter)
 ;(async () => {
     await connectDatabase()
 })()
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './images/')
+    },
+    filename: function (req, file, cb) {
+        cb(
+            null,
+            new Date().toISOString().replace(/:/g, '-') +
+                file.originalname +
+                '.jpg'
+        )
+    },
+})
+
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true)
+    } else {
+        cb(null, false)
+    }
+}
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5,
+    },
+    fileFilter: fileFilter,
+})
+app.post('/upload', upload.any(), (req, res, next) => {
+    // const file = req.file
+    // if (!file) {
+    //     const error = new Error('Please upload a file')
+    //     error.httpStatusCode = 400
+    //     return next(error)
+    // }
+    // res.send(file)
+    const { test } = req.body
+    console.log('🚀 ~ file: app.js:77 ~ app.post ~ test:', test)
+    console.log(req.files)
+})
 
 const options = {
     definition: {
