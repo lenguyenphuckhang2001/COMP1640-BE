@@ -38,9 +38,13 @@ const createPost = async (req, res) => {
 
 const updatePost = async (req, res) => {
     try {
-        const { postId } = req.params
-        const updatedPost = await PostService.updatePost(postId, req.body)
-        return res.status(200).json({ post: updatedPost })
+        const { id } = req.params
+        if (!id)
+            return res.status(400).json({ error: 'Please provide a post id' })
+        if (!req.body)
+            return res.status(400).json({ error: 'Please provide a post' })
+        const updatedPost = await PostService.updatePost(id, req.body)
+        return res.status(200).json(updatedPost)
     } catch (error) {
         return res.status(500).send(error.message)
     }
@@ -48,12 +52,11 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
     try {
-        const { postId } = req.params
-        const deleted = await PostService.deletePost(postId)
-        if (deleted) {
-            return res.status(200).send('Post deleted')
-        }
-        throw new Error('Post not found')
+        const { id } = req.params
+        if (!id)
+            return res.status(400).json({ error: 'Please provide a post id' })
+        const deleted = await PostService.deletePost(id)
+        if (deleted) return res.status(200).send(deleted)
     } catch (error) {
         return res.status(500).send(error.message)
     }
