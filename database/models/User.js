@@ -31,6 +31,9 @@ const userSchema = new mongoose.Schema(
             ],
             default: Department.IT_DEPARTMENT,
         },
+        userImage: {
+            type: String,
+        },
     },
     { timestamps: true }
 )
