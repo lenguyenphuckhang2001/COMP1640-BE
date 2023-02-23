@@ -6,7 +6,7 @@ const createBookmark = async (req, res, next) => {
     const bookmark = await Bookmarks.create({ postId, userId });
     res.status(201).json(bookmark);
   } catch (error) {
-    next(error);
+    res.status(400).json(error);
   }
 };
 
@@ -14,9 +14,9 @@ const deleteBookmark = async (req, res, next) => {
   try {
     const { id } = req.params;
     await Bookmarks.findByIdAndDelete(id);
-    res.sendStatus(204);
+    res.status(200).json('Bookmark delete successfully');
   } catch (error) {
-    next(error);
+    res.status(400).json(error);
   }
 };
 
