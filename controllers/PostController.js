@@ -3,7 +3,28 @@ const PostService = require('../services/PostServices');
 
 const getAllPosts = async (req, res) => {
   try {
-    const posts = await PostService.getAllPosts();
+    const { page = 1, limit = 5 } = req.query;
+    const options = {
+      page,
+      limit: parseInt(limit),
+      populate: [
+        {
+          path: 'tags',
+          select: 'name',
+        },
+        {
+          path: 'author',
+          select: 'username',
+        },
+        {
+          path: 'comments.author',
+          select: 'username',
+        },
+      ],
+      sort: { createdAt: -1 },
+    };
+
+    const posts = await PostService.getAllPosts(options);
     return res.status(200).json(posts);
   } catch (error) {
     return res.status(500).json({ error: error.message });

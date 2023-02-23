@@ -1,20 +1,28 @@
 const Post = require('../database/models/Post');
 
-const findAllPosts = async () => {
-  const posts = await Post.find(
-    {},
-    {
-      __v: 0,
-    },
-  )
-    .populate('tags author', {
-      name: 1,
-      username: 1,
-    })
-    .populate('comments.author', {
-      username: 1,
-    });
-  return posts;
+const findAllPosts = async (options) => {
+  // const posts = await Post.find(
+  //     {},
+  //     {
+  //         __v: 0,
+  //     }
+  // )
+  //     .populate('tags author', {
+  //         name: 1,
+  //         username: 1,
+  //     })
+  //     .populate('comments.author', {
+  //         username: 1,
+  //     })
+  //     .sort({ createdAt: -1 })
+
+  try {
+    const posts = await Post.paginate({}, options);
+
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const findPostById = async (id) => {
