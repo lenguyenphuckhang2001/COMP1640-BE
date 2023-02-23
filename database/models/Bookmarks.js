@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
-const bookmarksSchema = new Schema(
+const bookmarksSchema = new mongoose.Schema(
   {
     postId: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Post',
       required: true,
     },
     userId: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },

@@ -4,24 +4,27 @@ var router = express.Router();
 const {
   createUser,
   register,
-  getUser,
+  getUserById,
   patchEditUser,
   deleteUser,
   getAllUser,
   uploadAvatar,
 } = require('../../controllers/UserController');
 
+const avatarUploader = require('../../middlewares/avatarUpload');
+
 //METHOD GET
 router.get('/', getAllUser);
 
-router.get('/:userId', getUser);
+router.get('/:userId', getUserById);
 
 //METHOD POST
 router.post('/register', register);
 
 router.post('/create', createUser);
 
-router.post('/:userId/avatar', uploadAvatar);
+//upload user images
+router.post('/avatar/:userId', avatarUploader, uploadAvatar);
 
 //METHOD PATCH
 router.patch('/:userId', patchEditUser);

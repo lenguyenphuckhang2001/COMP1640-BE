@@ -19,12 +19,13 @@ const createUser = (req, res) => {
   }
 };
 
-const getUser = async (req, res, next) => {
+const getUserById = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.userId);
-    res.render('view-information', { user });
-  } catch (err) {
-    next(err);
+    if (!req.params.userId) return res.status(400).json({ message: 'Not found ID!' });
+    const user = await UserServices.getUserById(req.params.userId);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -55,45 +56,31 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-// Set storage engine for multer
-const storage = multer.diskStorage({
-  destination: './public/uploads',
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  },
-});
-
 // Init upload
-const upload = multer({
-  storage: storage,
-}).single('avatar');
+// const upload = multer({
+//   storage: storage,
+// }).single('avatar');
 
 //Upload avatar
-const uploadAvatar = (req, res) => {
-  const userId = req.params.userId;
-  upload(req, res, (err) => {
-    if (err) {
-      console.log(err);
-      res.status(500).json({ error: 'Avatar upload failed' });
-    } else {
-      // Update user model with new avatar file path
-      User.findByIdAndUpdate(userId, { avatar: `/uploads/${req.file.filename}` }, (err, user) => {
-        if (err) {
-          console.log(err);
-          res.status(500).json({ error: 'Avatar update failed' });
-        } else {
-          console.log('Avatar updated successfully!');
-          res.status(200).json({ message: 'Avatar updated successfully!' });
-        }
-      });
-    }
-  });
+const uploadAvatar = async (req, res) => {
+  //images//
+  try {
+    const userId = req.params.userId;
+    const image = req.files[0].path;
+    const filterPath = image.slice(6).replace(/\\/g, '/');
+    console.log('🚀 ~ file: UserController.js:71 ~ uploadAvatar ~ filterPath:', filterPath);
+
+    const data = await User.findByIdAndUpdate(userId, { avatar: filterPath }, { new: true });
+    res.status(200).json({ message: 'Avatar updated successfully!', data });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 module.exports = {
   register,
   createUser,
-  getUser,
+  getUserById,
   patchEditUser,
   deleteUser,
   getAllUser,

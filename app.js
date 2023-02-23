@@ -1,68 +1,65 @@
-require('dotenv').config()
-var express = require('express')
-var path = require('path')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
-const { connectDatabase } = require('./database/connect')
-const swaggerJsdoc = require('swagger-jsdoc')
-const swaggerUi = require('swagger-ui-express')
+require('dotenv').config();
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+const { connectDatabase } = require('./database/connect');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
-var indexRouter = require('./routes/index')
-const usersRouter = require('./routes/api/user')
-const tagRouter = require('./routes/api/tag')
-const postRouter = require('./routes/api/post')
+var indexRouter = require('./routes/index');
+const usersRouter = require('./routes/api/user');
+const tagRouter = require('./routes/api/tag');
+const postRouter = require('./routes/api/post');
+const bookmarkRouter = require('./routes/api/bookmarks');
 
-const Post = require('./database/models/Post')
-const Tag = require('./database/models/Tag')
-const User = require('./database/models/User')
-const multer = require('multer')
+var app = express();
 
-var app = express()
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use('/uploads', express.static(path.join(__dirname, '/public/uploads')));
+app.use('/images', express.static(path.join(__dirname, '/images')));
 
-app.use(logger('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(cookieParser())
-// app.use(express.static(path.join(__dirname, 'public')))
-app.use('/images', express.static(path.join(__dirname, '/images')))
-
-app.use('/', indexRouter)
-app.use('/users', usersRouter)
-app.use('/tags', tagRouter)
-app.use('/posts', postRouter)
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/tags', tagRouter);
+app.use('/posts', postRouter);
+app.use('/bookmarks', bookmarkRouter);
 
 //connect to database
-;(async () => {
-    await connectDatabase()
-})()
+(async () => {
+  await connectDatabase();
+})();
 
 const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'LogRocket Express API with Swagger',
-            version: '0.1.0',
-            description:
-                'This is a simple CRUD API application made with Express and documented with Swagger',
-            license: {
-                name: 'MIT',
-                url: 'https://spdx.org/licenses/MIT.html',
-            },
-            contact: {
-                name: 'LogRocket',
-                url: 'https://logrocket.com',
-            },
-        },
-        servers: [
-            {
-                url: 'http://localhost:3000',
-            },
-        ],
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'LogRocket Express API with Swagger',
+      version: '0.1.0',
+      description:
+        'This is a simple CRUD API application made with Express and documented with Swagger',
+      license: {
+        name: 'MIT',
+        url: 'https://spdx.org/licenses/MIT.html',
+      },
+      contact: {
+        name: 'LogRocket',
+        url: 'https://logrocket.com',
+      },
     },
-    apis: ['./routes/api/*.js'],
-}
+    servers: [
+      {
+        url: 'http://localhost:3000',
+      },
+    ],
+  },
+  apis: ['./routes/api/*.js'],
+};
 
-const specs = swaggerJsdoc(options)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+const specs = swaggerJsdoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-module.exports = app
+module.exports = app;

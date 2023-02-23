@@ -1,4 +1,4 @@
-const Bookmarks = require('../models/Bookmarks');
+const Bookmarks = require('../database/models/Bookmarks');
 
 const createBookmark = async (req, res, next) => {
   try {
