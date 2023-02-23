@@ -15,7 +15,7 @@ router.get('/', getAllPosts)
 
 router.get('/:id', getPostById)
 
-router.post('/', avartarUploader, createPost)
+router.post('/', createPost)
 
 router.patch('/:id', updatePost)
 
