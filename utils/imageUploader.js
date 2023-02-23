@@ -7,7 +7,9 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         cb(
             null,
-            new Date().toISOString().replace(/:/g, '-') + file.originalname
+            new Date().toISOString().replace(/:/g, '-') +
+                '-' +
+                file.originalname
         )
     },
 })
@@ -25,7 +27,7 @@ const imageUploader = (max_size, allowed_file_types, error_msg) => {
             if (allowed_file_types.includes(file.mimetype)) {
                 cb(null, true)
             } else {
-                cb(null, false)
+                cb(new Error(error_msg), false)
             }
         },
     })
