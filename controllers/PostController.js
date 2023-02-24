@@ -46,18 +46,18 @@ const getPostById = async (req, res) => {
 
 const createPost = async (req, res) => {
   try {
-    // if (!req.body)
-    //     return res.status(400).json({ error: 'Please provide a post' })
-    // const post = await PostService.createPost(req.body)
-    // return res.status(201).json(post)
+    if (!req.body) return res.status(400).json({ error: 'Please provide a post' });
+
     if (!req.files[0]) return res.status(400).json({ error: 'Please provide a post' });
+
     const data = {
       title: req.body.title,
       content: req.body.content,
       avatar: req.files[0].path,
+      ...req.body,
     };
+
     const post = await PostService.createPost(data);
-    if (!post) return res.status(400).json({ error: 'Please provide a post' });
     return res.status(201).json(post);
   } catch (error) {
     return res.status(500).json({ error: error.message });

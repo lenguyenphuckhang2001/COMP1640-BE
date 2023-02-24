@@ -16,9 +16,6 @@ const imageUploader = (max_size, allowed_file_types, error_msg) => {
       fileSize: max_size,
     },
     fileFilter: (req, file, cb) => {
-      //write if not have mimetype property return an emty string
-
-      // reject a file
       if (allowed_file_types.includes(file.mimetype)) {
         cb(null, true);
       } else {
