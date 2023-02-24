@@ -11,11 +11,7 @@ var indexRouter = require('./routes/index')
 const usersRouter = require('./routes/api/user')
 const tagRouter = require('./routes/api/tag')
 const postRouter = require('./routes/api/post')
-
-const Post = require('./database/models/Post')
-const Tag = require('./database/models/Tag')
-const User = require('./database/models/User')
-const multer = require('multer')
+// const CommentRouter = require('./routes/api/comments')
 
 var app = express()
 
@@ -30,6 +26,7 @@ app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/tags', tagRouter)
 app.use('/posts', postRouter)
+// app.use('/comments', CommentRouter)
 
 //connect to database
 ;(async () => {

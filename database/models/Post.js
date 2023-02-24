@@ -24,11 +24,8 @@ const postSchema = new mongoose.Schema(
         ],
         comments: [
             {
-                content: String,
-                author: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'User',
-                },
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Comment',
             },
         ],
         votes: {

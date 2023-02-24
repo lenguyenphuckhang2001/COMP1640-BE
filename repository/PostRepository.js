@@ -26,17 +26,25 @@ const findAllPosts = async (options) => {
 }
 
 const findPostById = async (id) => {
-    const post = await Post.findById(id, {
-        __v: 0,
+    const post = await Post.findById(id).populate('tags author', {
+        username: 1,
+        email: 1,
+        name: 1,
     })
-        .populate('tags author', {
-            name: 1,
-            username: 1,
-        })
-        .populate('comments.author', {
-            username: 1,
-            email: 1,
-        })
+    // .populate({
+    //     path: 'comments',
+    //     select: {
+    //         __v: 0,
+    //     },
+    //     populate: {
+    //         path: 'author',
+    //         select: {
+    //             username: 1,
+    //             email: 1,
+    //         },
+    //     },
+    // })
+
     return post
 }
 
