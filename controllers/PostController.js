@@ -16,10 +16,10 @@ const getAllPosts = async (req, res) => {
           path: 'author',
           select: 'username',
         },
-        {
-          path: 'comments.author',
-          select: 'username',
-        },
+        // {
+        //     path: 'comments',
+        //     select: 'content',
+        // },
       ],
       sort: { createdAt: -1 },
     };
