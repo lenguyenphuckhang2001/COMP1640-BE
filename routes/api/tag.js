@@ -1,5 +1,5 @@
-var express = require('express')
-var router = express.Router()
+var express = require("express");
+var router = express.Router();
 
 const {
     createTag,
@@ -7,7 +7,7 @@ const {
     updateTag,
     getTagById,
     deleteTag,
-} = require('../../controllers/TagController')
+} = require("../../controllers/TagController");
 
 /**
  * @swagger
@@ -60,7 +60,7 @@ const {
  *                     example: Test
  */
 //* get all tags
-router.get('/', getAllTags)
+router.get("/", getAllTags);
 
 /**
  * @swagger
@@ -95,7 +95,7 @@ router.get('/', getAllTags)
  *
  */
 //* get a tag by id
-router.get('/:id', getTagById)
+router.get("/:id", getTagById);
 
 /**
  * @swagger
@@ -114,7 +114,7 @@ router.get('/:id', getTagById)
  *             $ref: '#/components/schemas/Tag'
  */
 //* create a tag
-router.post('/', createTag)
+router.post("/", createTag);
 
 /**
  * @swagger
@@ -148,7 +148,7 @@ router.post('/', createTag)
  *         description: Update books.
  */
 //* update a tag
-router.patch('/:id', updateTag)
+router.patch("/:userId", updateTag);
 
 /**
  * @swagger
@@ -171,6 +171,6 @@ router.patch('/:id', updateTag)
  */
 
 //* delete a tag
-router.delete('/:id', deleteTag)
+router.delete("/:userId", deleteTag);
 
-module.exports = router
+module.exports = router;

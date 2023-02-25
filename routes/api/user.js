@@ -1,13 +1,35 @@
-var express = require('express')
-var router = express.Router()
+var express = require('express');
+var router = express.Router();
 
-const { createUser, register } = require('../../controllers/UserController')
+const {
+  createUser,
+  register,
+  getUserById,
+  patchEditUser,
+  deleteUser,
+  getAllUser,
+  uploadAvatar,
+} = require('../../controllers/UserController');
 
-//Get all users
-router.get('/')
+const avatarUploader = require('../../middlewares/avatarUpload');
 
-router.post('/register', register)
+//METHOD GET
+router.get('/', getAllUser);
 
-router.post('/login', createUser)
+router.get('/:userId', getUserById);
 
-module.exports = router
+//METHOD POST
+router.post('/register', register);
+
+router.post('/create', createUser);
+
+//upload user images
+router.post('/avatar/:userId', avatarUploader, uploadAvatar);
+
+//METHOD PATCH
+router.patch('/:userId', patchEditUser);
+
+//METHOD DELETE
+router.delete('/:userId', deleteUser);
+
+module.exports = router;
