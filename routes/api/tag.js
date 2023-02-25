@@ -170,6 +170,26 @@ router.patch("/:userId", updateTag);
  *              description: Book that was deleted
  */
 
+/**
+ * @swagger
+ * /tags/{id}:
+ *  delete:
+ *      tags:
+ *         - Tags
+ *      summary: Delete tag
+ *      description: Delete tag
+ *      parameters:
+ *        - in: path
+ *          name: tagId
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: string id of Book to delete
+ *      responses:
+ *          200:
+ *              description: Book that was deleted
+ */
+
 //* delete a tag
 router.delete("/:userId", deleteTag);
 

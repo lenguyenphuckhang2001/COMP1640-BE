@@ -12,6 +12,7 @@ const usersRouter = require('./routes/api/user');
 const tagRouter = require('./routes/api/tag');
 const postRouter = require('./routes/api/post');
 const bookmarkRouter = require('./routes/api/bookmarks');
+// const CommentRouter = require('./routes/api/comments')
 
 const multer = require('multer');
 
@@ -20,13 +21,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, '/public/uploads')));
-app.use('/images', express.static(path.join(__dirname, '/images')));
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')))
 app.use('/images', express.static(path.join(__dirname, '/images')));
 
 app.use('/', indexRouter);
