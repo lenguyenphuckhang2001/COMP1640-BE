@@ -14,7 +14,7 @@ const postRouter = require('./routes/api/post');
 const bookmarkRouter = require('./routes/api/bookmarks');
 // const CommentRouter = require('./routes/api/comments')
 
-const multer = require('multer');
+var app = express();
 
 app.use(logger('dev'));
 app.use(express.json());

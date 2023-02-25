@@ -38,9 +38,9 @@ const getPostById = async (req, res) => {
     if (post) {
       return res.status(200).json(post);
     }
-    return res.status(404).send('Post with the specified ID does not exists');
+    return res.status(404).json('Post with the specified ID does not exists');
   } catch (error) {
-    return res.status(500).send(error.message);
+    return res.status(500).json(error.message);
   }
 };
 
@@ -76,7 +76,7 @@ const updatePost = async (req, res) => {
 
     return res.status(200).json(updatedPost);
   } catch (error) {
-    return res.status(500).send(error.message);
+    return res.status(500).json(error.message);
   }
 };
 
@@ -85,9 +85,9 @@ const deletePost = async (req, res) => {
     const { id } = req.params;
     if (!id) return res.status(400).json({ error: 'Please provide a post id' });
     const deleted = await PostService.deletePost(id);
-    if (deleted) return res.status(200).send(deleted);
+    if (deleted) return res.status(200).json(deleted);
   } catch (error) {
-    return res.status(500).send(error.message);
+    return res.status(500).json(error.message);
   }
 };
 
@@ -100,7 +100,7 @@ const addComment = async (req, res) => {
     const comment = await PostService.addComment(id, req.body);
     return res.status(200).json(comment);
   } catch (error) {
-    return res.status(400).send(error.message);
+    return res.status(400).json(error.message);
   }
 };
 
