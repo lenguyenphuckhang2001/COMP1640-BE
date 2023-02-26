@@ -1,6 +1,6 @@
   const nodemailer = require("nodemailer");
 
-  const sendEmail = async (email, name) => {
+  const sendEmail = async (email, username) => {
     try {
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -16,7 +16,7 @@
         from: 'no-reply@blogspot.com',
         to: email,
         subject: "Verify Email",
-        html: `<div><h1>Hi ${name}</h1><br/><p>Click the button to verify your email</p></div>`,
+        html: `<div><h1>Hi ${email}</h1><br/><p>Click the button to verify your email</p></div>`,
       });
       console.log("email sent sucessfully");
     } catch (error) {
