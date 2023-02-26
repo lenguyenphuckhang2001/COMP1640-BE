@@ -1,8 +1,5 @@
 const UserServices = require('../services/UserServices');
 const User = require('../database/models/User');
-const multer = require('multer');
-const path = require('path');
-const User = require('../database/models/User');
 const { hashPassword, checkPassword } = require("../utils/bcrypt");
 const { createToken } = require("../utils/jwt");
 const { sendEmail } = require("../utils/sendEmail");
