@@ -5,7 +5,7 @@ const path = require('path');
 const User = require('../database/models/User');
 const { hashPassword, checkPassword } = require("../utils/bcrypt");
 const { createToken } = require("../utils/jwt");
-
+const { sendEmail } = require("../utils/sendEmail");
 
 const getAllUsers = async (req, res, next) => {
     try {
@@ -28,7 +28,9 @@ const register = async (req, res, next) => {
             const newUser = await User.create({ ...data, password: hashedPassword });
         
             if (!newUser) return res.status(500).send("Internal server error");
-        
+
+            await sendEmail(newUser.email, "Verify Email");
+
             return res.status(200).send(newUser);
           } catch (error) {
           console.log("🚀 ~ file: UserController.js:31 ~ register ~ error", error)
