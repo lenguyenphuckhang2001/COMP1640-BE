@@ -1,8 +1,8 @@
 const PostRepository = require('../repository/PostRepository')
 
-const getAllPosts = () => {
+const getAllPosts = (options) => {
     try {
-        const posts = PostRepository.findAllPosts()
+        const posts = PostRepository.findAllPosts(options)
         return posts
     } catch (error) {
         console.log(error)

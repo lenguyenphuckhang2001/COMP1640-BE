@@ -12,6 +12,7 @@ const usersRouter = require('./routes/api/user');
 const tagRouter = require('./routes/api/tag');
 const postRouter = require('./routes/api/post');
 const bookmarkRouter = require('./routes/api/bookmarks');
+// const CommentRouter = require('./routes/api/comments')
 
 var app = express();
 
