@@ -12,7 +12,7 @@ const usersRouter = require('./routes/api/user');
 const tagRouter = require('./routes/api/tag');
 const postRouter = require('./routes/api/post');
 const bookmarkRouter = require('./routes/api/bookmarks');
-// const CommentRouter = require('./routes/api/comments')
+const CommentRouter = require('./routes/api/comments');
 
 var app = express();
 
@@ -28,6 +28,7 @@ app.use('/users', usersRouter);
 app.use('/tags', tagRouter);
 app.use('/posts', postRouter);
 app.use('/bookmarks', bookmarkRouter);
+app.use('/comments', CommentRouter);
 
 //connect to database
 (async () => {

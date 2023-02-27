@@ -13,7 +13,6 @@ const {
   verifyEmail,
   forgotPassword,
   changePassword,
-
 } = require('../../controllers/UserController');
 
 const avatarUploader = require('../../middlewares/avatarUpload');
@@ -26,11 +25,10 @@ router.get('/:userId', getUserById);
 //METHOD POST
 router.post('/register', register);
 
-
 router.get('/verify-email/:userId', verifyEmail);
 
 router.post('/login', login);
- 
+
 router.post('/logout', logout);
 
 router.post('/forgot-password', forgotPassword);
@@ -45,6 +43,5 @@ router.patch('/:userId', patchEditUser);
 
 //METHOD DELETE
 router.delete('/:userId', deleteUser);
-
 
 module.exports = router;
