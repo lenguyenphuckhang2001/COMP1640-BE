@@ -21,7 +21,11 @@ router.get('/:userId', getUserById);
 //METHOD POST
 router.post('/register', register);
 
-router.post('/create', createUser);
+const { 
+    createUser, 
+    register, 
+    login,
+    getAllUsers } = require('../../controllers/UserController')
 
 //upload user images
 router.post('/avatar/:userId', avatarUploader, uploadAvatar);
