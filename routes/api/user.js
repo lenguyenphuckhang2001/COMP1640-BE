@@ -3,6 +3,7 @@ var router = express.Router();
 
 const {
   createUser,
+  login,
   register,
   getUserById,
   patchEditUser,
@@ -21,11 +22,7 @@ router.get('/:userId', getUserById);
 //METHOD POST
 router.post('/register', register);
 
-const { 
-    createUser, 
-    register, 
-    login,
-    getAllUsers } = require('../../controllers/UserController')
+router.post('/login', login);
 
 //upload user images
 router.post('/avatar/:userId', avatarUploader, uploadAvatar);
