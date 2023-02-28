@@ -2,13 +2,13 @@ var express = require('express');
 var router = express.Router();
 
 const {
-  createUser,
   register,
   getUserById,
   patchEditUser,
   deleteUser,
   getAllUser,
   uploadAvatar,
+  login,
 } = require('../../controllers/UserController');
 
 const avatarUploader = require('../../middlewares/avatarUpload');
@@ -21,12 +21,7 @@ router.get('/:userId', getUserById);
 //METHOD POST
 router.post('/register', register);
 
-const { 
-    createUser, 
-    register, 
-    login,
-    getAllUsers } = require('../../controllers/UserController')
-
+router.post('/login', login);
 //upload user images
 router.post('/avatar/:userId', avatarUploader, uploadAvatar);
 
