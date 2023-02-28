@@ -48,6 +48,7 @@ const updateComment = async (id, comment) => {
 const deleteComment = async (id) => {
   try {
     const data = await CommentRepository.deleteComment(id);
+    return data;
   } catch (error) {
     console.log(error);
   }

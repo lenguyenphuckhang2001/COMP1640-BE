@@ -11,7 +11,7 @@ const {
 } = require('../../controllers/CommentController');
 
 router.get('/', getAllComment);
-router.get('/post', getAllCommentByPostId);
+router.get('/post/:id', getAllCommentByPostId);
 router.get('/:id', getCommentById);
 router.post('/post/:id', createComment);
 router.patch('/:id', updateComment);

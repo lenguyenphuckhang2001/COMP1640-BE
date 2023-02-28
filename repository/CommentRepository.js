@@ -24,10 +24,9 @@ const createComment = async (comment, id) => {
 
 const findCommentById = async (id) => {
   try {
-    const comment = await CommentModel.findById(id).populate('comments', {
+    const comment = await CommentModel.findById(id).populate('author', {
       username: 1,
     });
-    console.log(comment);
     return comment;
   } catch (error) {
     console.log(error);
@@ -83,6 +82,18 @@ const updateComment = async (id, comment) => {
 const deleteComment = async (id) => {
   try {
     const data = await CommentModel.findByIdAndDelete(id);
+    const post = await PostModel.updateMany(
+      {},
+      {
+        $pull: {
+          comments: id,
+        },
+      },
+      {
+        new: true,
+      },
+    );
+    return data;
   } catch (error) {
     console.log(error);
   }

@@ -13,6 +13,7 @@ const getTagById = async (req, res, next) => {
   try {
     if (!req.params.id) return res.status(400).json({ message: 'No id' });
     const tag = await TagServices.getTagById(req.params.id);
+    if (!tag) return res.status(400).json({ message: 'Tag not found' });
     res.status(200).json(tag);
   } catch (error) {
     res.status(400).json({ message: error.message });

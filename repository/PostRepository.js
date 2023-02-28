@@ -63,31 +63,31 @@ const deletePost = async (id) => {
   }
 };
 
-const addComment = async (id, data) => {
-  try {
-    const post = await Post.findByIdAndUpdate(
-      id,
-      {
-        $push: {
-          comments: data,
-        },
-      },
-      {
-        new: true,
-      },
-    )
-      .populate('tags author', {
-        name: 1,
-        username: 1,
-      })
-      .populate('comments.author', {
-        username: 1,
-      });
-    return post;
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const addComment = async (id, data) => {
+//   try {
+//     const post = await Post.findByIdAndUpdate(
+//       id,
+//       {
+//         $push: {
+//           comments: data,
+//         },
+//       },
+//       {
+//         new: true,
+//       },
+//     )
+//       .populate('tags author', {
+//         name: 1,
+//         username: 1,
+//       })
+//       .populate('comments.author', {
+//         username: 1,
+//       });
+//     return post;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 module.exports = {
   findAllPosts,
@@ -95,5 +95,4 @@ module.exports = {
   updatePost,
   findPostById,
   deletePost,
-  addComment,
 };
