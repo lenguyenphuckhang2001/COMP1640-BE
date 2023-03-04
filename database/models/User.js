@@ -48,8 +48,17 @@ const userSchema = new mongoose.Schema(
       ],
       default: Department.IT_DEPARTMENT,
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );
+const User = mongoose.model('User', userSchema);
 
-module.exports = mongoose.model('User', userSchema);
+
+
+module.exports = {
+  User,
+};

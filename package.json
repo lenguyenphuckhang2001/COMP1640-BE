@@ -12,6 +12,7 @@
         "debug": "~2.6.9",
         "dotenv": "^16.0.3",
         "express": "~4.16.1",
+        "joi": "^17.8.3",
         "jsonwebtoken": "^9.0.0",
         "mongoose": "^6.9.2",
         "mongoose-paginate-v2": "^1.7.1",
