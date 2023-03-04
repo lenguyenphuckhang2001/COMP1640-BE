@@ -35,7 +35,6 @@ router.post('/forgot-password', forgotPassword);
 
 router.post('/reset-password/:userId', changePassword);
 
-
 //upload user images
 router.post('/avatar/:userId', avatarUploader, uploadAvatar);
 

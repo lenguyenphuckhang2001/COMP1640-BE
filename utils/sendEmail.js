@@ -16,7 +16,7 @@ const nodemailer = require("nodemailer");
         from: 'no-reply@blogspot.com',
         to: email,
         subject: "no-reply",
-        text: `Hi ${email} ${message}`,
+        text: `Hi ${email}, ${message}`,
       });
       console.log("email sent sucessfully");
     } catch (error) {
