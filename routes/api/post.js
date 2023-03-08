@@ -9,11 +9,15 @@ const {
   addComment,
 } = require('../../controllers/PostController');
 
+const { fileUpload } = require('../../middlewares/Uploader');
+
+const { isCloseDate } = require('../../middlewares/isCloseDate');
+
 router.get('/', getAllPosts);
 
 router.get('/:id', getPostById);
 
-router.post('/', createPost);
+router.post('/', [fileUpload, isCloseDate], createPost);
 
 router.patch('/:id', updatePost);
 

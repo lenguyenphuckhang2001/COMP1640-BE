@@ -1,4 +1,5 @@
 const Post = require('../database/models/Post');
+const Tag = require('../database/models/Tag');
 
 const findAllPosts = async (options) => {
   try {
@@ -37,6 +38,19 @@ const findPostById = async (id) => {
 const createPost = async (post) => {
   try {
     const data = await Post.create(post);
+    const updateTagIsUsed = await Tag.updateMany(
+      {
+        _id: {
+          $in: data.tags,
+        },
+      },
+      {
+        $set: {
+          isUsed: true,
+        },
+      },
+    );
+
     return data;
   } catch (error) {
     console.log(error);

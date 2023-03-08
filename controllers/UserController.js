@@ -16,7 +16,7 @@ const getAllUsers = async (req, res, next) => {
 const register = async (req, res, next) => {
   try {
     let data = req.body;
-    
+
     const user = await User.findOne({ email: data.email });
 
     if (user) return res.status(400).send('user already exist');
@@ -46,7 +46,7 @@ const verifyEmail = async (req, res, next) => {
 
     res.send('Email verified');
   } catch (error) {
-    res.status(400).send("An error occured");
+    res.status(400).send('An error occured');
   }
 };
 const createUser = (req, res) => {
@@ -149,12 +149,12 @@ const login = async (req, res, next) => {
 };
 
 const forgotPassword = async (req, res, next) => {
-  try{
+  try {
     let { email } = req.body;
 
     if (!email) return res.status(400).send('empty email or password');
 
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email });
     if (!user) return res.status(400).send('User not found');
 
     const link = `${process.env.APP_URL}/reset-password/${user._id}`;
@@ -162,24 +162,24 @@ const forgotPassword = async (req, res, next) => {
     await sendEmail(user.email, message);
     res.send('Please check your email to reset your password');
   } catch (error) {
-    res.status(400).send("An error occured");
+    res.status(400).send('An error occured');
     console.log('🚀 ~ file: UserController.js:64 ~ login ~ error', error);
   }
 };
 
 const changePassword = async (req, res, next) => {
-  try{
+  try {
     let { password } = req.body;
 
     if (!password) return res.status(400).send('empty password');
 
     const hashedPassword = await hashPassword(password);
-    const user = await User.findByIdAndUpdate(req.params.userId, {password: hashedPassword});
+    const user = await User.findByIdAndUpdate(req.params.userId, { password: hashedPassword });
     if (!user) return res.status(400).send('User not found');
-    
+
     res.send('Password changed successfully');
   } catch (error) {
-    res.status(400).send("An error occured");
+    res.status(400).send('An error occured');
     console.log('🚀 ~ file: UserController.js:64 ~ login ~ error', error);
   }
 };
@@ -192,9 +192,6 @@ const logout = async (req, res, next) => {
     res.status(400).json({ error: error.message });
   }
 };
-
-
-
 
 module.exports = {
   register,
