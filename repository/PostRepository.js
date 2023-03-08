@@ -1,21 +1,6 @@
 const Post = require('../database/models/Post');
 
 const findAllPosts = async (options) => {
-  // const posts = await Post.find(
-  //     {},
-  //     {
-  //         __v: 0,
-  //     }
-  // )
-  //     .populate('tags author', {
-  //         name: 1,
-  //         username: 1,
-  //     })
-  //     .populate('comments.author', {
-  //         username: 1,
-  //     })
-  //     .sort({ createdAt: -1 })
-
   try {
     const posts = await Post.paginate({}, options);
 
@@ -26,24 +11,25 @@ const findAllPosts = async (options) => {
 };
 
 const findPostById = async (id) => {
-  const post = await Post.findById(id).populate('tags author', {
-    username: 1,
-    email: 1,
-    name: 1,
-  });
-  // .populate({
-  //     path: 'comments',
-  //     select: {
-  //         __v: 0,
-  //     },
-  //     populate: {
-  //         path: 'author',
-  //         select: {
-  //             username: 1,
-  //             email: 1,
-  //         },
-  //     },
-  // })
+  const post = await Post.findById(id)
+    .populate('tags author', {
+      username: 1,
+      email: 1,
+      name: 1,
+    })
+    .populate({
+      path: 'comments',
+      select: {
+        __v: 0,
+      },
+      populate: {
+        path: 'author',
+        select: {
+          username: 1,
+          email: 1,
+        },
+      },
+    });
 
   return post;
 };
@@ -77,31 +63,31 @@ const deletePost = async (id) => {
   }
 };
 
-const addComment = async (id, data) => {
-  try {
-    const post = await Post.findByIdAndUpdate(
-      id,
-      {
-        $push: {
-          comments: data,
-        },
-      },
-      {
-        new: true,
-      },
-    )
-      .populate('tags author', {
-        name: 1,
-        username: 1,
-      })
-      .populate('comments.author', {
-        username: 1,
-      });
-    return post;
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const addComment = async (id, data) => {
+//   try {
+//     const post = await Post.findByIdAndUpdate(
+//       id,
+//       {
+//         $push: {
+//           comments: data,
+//         },
+//       },
+//       {
+//         new: true,
+//       },
+//     )
+//       .populate('tags author', {
+//         name: 1,
+//         username: 1,
+//       })
+//       .populate('comments.author', {
+//         username: 1,
+//       });
+//     return post;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 module.exports = {
   findAllPosts,
@@ -109,5 +95,4 @@ module.exports = {
   updatePost,
   findPostById,
   deletePost,
-  addComment,
 };

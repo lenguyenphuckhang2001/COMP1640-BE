@@ -35,10 +35,8 @@ const getPostById = async (req, res) => {
   try {
     const { id } = req.params;
     const post = await PostService.getPostById(id);
-    if (post) {
-      return res.status(200).json(post);
-    }
-    return res.status(404).json('Post with the specified ID does not exists');
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+    return res.status(200).json(post);
   } catch (error) {
     return res.status(500).json(error.message);
   }
@@ -48,16 +46,7 @@ const createPost = async (req, res) => {
   try {
     if (!req.body) return res.status(400).json({ error: 'Please provide a post' });
 
-    if (!req.files[0]) return res.status(400).json({ error: 'Please provide a post' });
-
-    const data = {
-      title: req.body.title,
-      content: req.body.content,
-      avatar: req.files[0].path,
-      ...req.body,
-    };
-
-    const post = await PostService.createPost(data);
+    const post = await PostService.createPost(req.body);
     return res.status(201).json(post);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -91,18 +80,18 @@ const deletePost = async (req, res) => {
   }
 };
 
-const addComment = async (req, res) => {
-  try {
-    const { id } = req.params;
-    if (!id) return res.status(400).json({ error: 'Please provide a post id' });
-    if (!req.body) return res.status(400).json({ error: 'Please provide a comment' });
+// const addComment = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     if (!id) return res.status(400).json({ error: 'Please provide a post id' });
+//     if (!req.body) return res.status(400).json({ error: 'Please provide a comment' });
 
-    const comment = await PostService.addComment(id, req.body);
-    return res.status(200).json(comment);
-  } catch (error) {
-    return res.status(400).json(error.message);
-  }
-};
+//     const comment = await PostService.addComment(id, req.body);
+//     return res.status(200).json(comment);
+//   } catch (error) {
+//     return res.status(400).json(error.message);
+//   }
+// };
 
 module.exports = {
   getAllPosts,
@@ -110,5 +99,4 @@ module.exports = {
   createPost,
   updatePost,
   deletePost,
-  addComment,
 };
