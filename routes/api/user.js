@@ -15,7 +15,7 @@ const {
   changePassword,
 } = require('../../controllers/UserController');
 
-const avatarUploader = require('../../middlewares/avatarUpload');
+const { avatarUploader } = require('../../middlewares/Uploader');
 
 //METHOD GET
 router.get('/', getAllUser);

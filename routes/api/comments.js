@@ -10,9 +10,12 @@ const {
   getAllCommentByPostId,
 } = require('../../controllers/CommentController');
 
+// const { isFinalCloseDate } = require('../../middlewares/isCloseDate');
+
 router.get('/', getAllComment);
 router.get('/post/:id', getAllCommentByPostId);
 router.get('/:id', getCommentById);
+// router.post('/post/:id', isFinalCloseDate, createComment);
 router.post('/post/:id', createComment);
 router.patch('/:id', updateComment);
 router.delete('/:id', deleteComment);
