@@ -25,6 +25,7 @@ const getAllPosts = async (req, res) => {
     };
 
     const posts = await PostService.getAllPosts(options);
+    if (!posts) return res.status(400).json({ error: 'Posts not found' });
     return res.status(200).json(posts);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -45,8 +46,14 @@ const getPostById = async (req, res) => {
 const createPost = async (req, res) => {
   try {
     if (!req.body) return res.status(400).json({ error: 'Please provide a post' });
-
-    const post = await PostService.createPost(req.body);
+    let data = req.body;
+    if (req.file) {
+      data = {
+        ...req.body,
+        file: req.file.path.slice(7),
+      };
+    }
+    const post = await PostService.createPost(data);
     return res.status(201).json(post);
   } catch (error) {
     return res.status(500).json({ error: error.message });

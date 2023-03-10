@@ -32,7 +32,11 @@ const postSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    avatar: {
+    isAnonymous: {
+      type: Boolean,
+      default: false,
+    },
+    file: {
       type: String,
       default: '',
     },

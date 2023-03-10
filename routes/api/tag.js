@@ -1,13 +1,15 @@
-var express = require("express");
+var express = require('express');
 var router = express.Router();
 
 const {
-    createTag,
-    getAllTags,
-    updateTag,
-    getTagById,
-    deleteTag,
-} = require("../../controllers/TagController");
+  createTag,
+  getAllTags,
+  updateTag,
+  getTagById,
+  deleteTag,
+} = require('../../controllers/TagController');
+
+const isTagUsed = require('../../middlewares/isTagUsed');
 
 /**
  * @swagger
@@ -60,7 +62,7 @@ const {
  *                     example: Test
  */
 //* get all tags
-router.get("/", getAllTags);
+router.get('/', getAllTags);
 
 /**
  * @swagger
@@ -95,7 +97,7 @@ router.get("/", getAllTags);
  *
  */
 //* get a tag by id
-router.get("/:id", getTagById);
+router.get('/:id', getTagById);
 
 /**
  * @swagger
@@ -114,7 +116,7 @@ router.get("/:id", getTagById);
  *             $ref: '#/components/schemas/Tag'
  */
 //* create a tag
-router.post("/", createTag);
+router.post('/', createTag);
 
 /**
  * @swagger
@@ -148,7 +150,7 @@ router.post("/", createTag);
  *         description: Update books.
  */
 //* update a tag
-router.patch("/:userId", updateTag);
+router.patch('/:userId', updateTag);
 
 /**
  * @swagger
@@ -191,6 +193,6 @@ router.patch("/:userId", updateTag);
  */
 
 //* delete a tag
-router.delete("/:userId", deleteTag);
+router.delete('/:id', isTagUsed, deleteTag);
 
 module.exports = router;

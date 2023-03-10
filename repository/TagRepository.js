@@ -16,8 +16,8 @@ const findTagById = async (id) => {
 
 const createTag = async (tag) => {
   try {
-    const tag = await TagModel.create(tag);
-    return tag;
+    const data = await TagModel.create(tag);
+    return data;
   } catch (error) {
     console.log(error);
   }
