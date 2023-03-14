@@ -17,7 +17,7 @@ router.get('/', getAllPosts);
 
 router.get('/:id', getPostById);
 
-router.post('/', [fileUpload, isCloseDate], createPost);
+router.post('/', [fileUpload], createPost);
 
 router.patch('/:id', updatePost);
 

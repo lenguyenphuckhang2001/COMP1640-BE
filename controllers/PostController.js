@@ -1,6 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const PostService = require('../services/PostServices');
-
+const { sendEmail } = require('../utils/sendEmail');
 const getAllPosts = async (req, res) => {
   try {
     const { page = 1, limit = 5 } = req.query;
@@ -54,6 +54,11 @@ const createPost = async (req, res) => {
       };
     }
     const post = await PostService.createPost(data);
+
+    const QA_EMAIL = process.env.QA_EMAIL;
+    const message = 'Have new Post';
+    await sendEmail(QA_EMAIL, message);
+
     return res.status(201).json(post);
   } catch (error) {
     return res.status(500).json({ error: error.message });
