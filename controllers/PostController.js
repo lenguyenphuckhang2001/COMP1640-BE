@@ -55,9 +55,9 @@ const createPost = async (req, res) => {
     }
     const post = await PostService.createPost(data);
 
-    const QA_EMAIL = process.env.QA_EMAIL;
+    const QsA_EMAIL = process.env.QsA_EMAIL;
     const message = 'Have new Post';
-    await sendEmail(QA_EMAIL, message);
+    await sendEmail(QsA_EMAIL, message);
 
     return res.status(201).json(post);
   } catch (error) {
