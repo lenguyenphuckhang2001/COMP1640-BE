@@ -16,20 +16,14 @@ const getAllUsers = async (req, res, next) => {
 const register = async (req, res, next) => {
   try {
     let data = req.body;
-
     const user = await User.findOne({ email: data.email });
-
     if (user) return res.status(400).send('user already exist');
-
     const hashedPassword = await hashPassword(data.password);
-
     const newUser = await User.create({ ...data, password: hashedPassword });
-
     if (!newUser) return res.status(500).send('Internal server error');
 
     const message = `please click the link below to verify your email address: ${process.env.APP_URL}/users/verify-email/${newUser._id}`;
     await sendEmail(newUser.email, message);
-
     return res.status(200).send(newUser);
   } catch (error) {
     console.log('🚀 ~ file: UserController.js:31 ~ register ~ error', error);
@@ -96,11 +90,6 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-// Init upload
-// const upload = multer({
-//   storage: storage,
-// }).single('avatar');
-
 //Upload avatar
 const uploadAvatar = async (req, res) => {
   //images//
@@ -120,27 +109,20 @@ const uploadAvatar = async (req, res) => {
 const login = async (req, res, next) => {
   try {
     let { email, password } = req.body;
-
-    if (!email || !password) return res.status(400).send('empty email or password');
+    if (!email || !password) return res.status(400).send('Empty email or password');
 
     const foundUser = await User.findOne({ email });
-
     if (!foundUser) return res.status(403).send("Can't find any user");
 
     const isValidPassword = await checkPassword(password, foundUser.password);
-
     if (!isValidPassword) return res.status(401).send('Password is not valid');
 
     const { email: userEmail, role, username } = foundUser;
-
     const payload = { email: userEmail, role, username };
-
     const token = await createToken(payload);
-
     res.cookie('access_token', token, {
       httpOnly: true,
     });
-
     res.json(token);
   } catch (error) {
     console.log('🚀 ~ file: UserController.js:64 ~ login ~ error', error);
@@ -151,9 +133,7 @@ const login = async (req, res, next) => {
 const forgotPassword = async (req, res, next) => {
   try {
     let { email } = req.body;
-
     if (!email) return res.status(400).send('empty email or password');
-
     const user = await User.findOne({ email });
     if (!user) return res.status(400).send('User not found');
 
@@ -170,13 +150,10 @@ const forgotPassword = async (req, res, next) => {
 const changePassword = async (req, res, next) => {
   try {
     let { password } = req.body;
-
     if (!password) return res.status(400).send('empty password');
-
     const hashedPassword = await hashPassword(password);
     const user = await User.findByIdAndUpdate(req.params.userId, { password: hashedPassword });
     if (!user) return res.status(400).send('User not found');
-
     res.send('Password changed successfully');
   } catch (error) {
     res.status(400).send('An error occured');
