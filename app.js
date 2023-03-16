@@ -14,7 +14,7 @@ const tagRouter = require('./routes/api/tag');
 const postRouter = require('./routes/api/post');
 const bookmarkRouter = require('./routes/api/bookmarks');
 const commentRouter = require('./routes/api/comments');
-const departmentRouter = require('./routes/api/departments');
+const departmentRouter = require('./routes/api/department');
 
 var app = express();
 
