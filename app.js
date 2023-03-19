@@ -6,6 +6,7 @@ var logger = require('morgan');
 const { connectDatabase } = require('./database/connect');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 const usersRouter = require('./routes/api/user');
@@ -16,6 +17,7 @@ const CommentRouter = require('./routes/api/comments');
 
 var app = express();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,11 +26,11 @@ app.use('/uploads', express.static(path.join(__dirname, '/public/uploads')));
 app.use('/images', express.static(path.join(__dirname, '/images')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/tags', tagRouter);
-app.use('/posts', postRouter);
-app.use('/bookmarks', bookmarkRouter);
-app.use('/comments', CommentRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/tags', tagRouter);
+app.use('/api/posts', postRouter);
+app.use('/api/bookmarks', bookmarkRouter);
+app.use('/api/comments', CommentRouter);
 
 //connect to database
 (async () => {
