@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
+      trim: true,
     },
     fullname: {
       type: String,
@@ -18,16 +19,14 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: false,
+      required: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
-    },
-    DoB: {
-      type: Date,
-      requied: true,
+      trim: true,
+      lowercase: true,
     },
     phonenumber: {
       type: String,
@@ -49,4 +48,5 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
 module.exports = mongoose.model('User', userSchema);

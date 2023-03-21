@@ -7,6 +7,7 @@ const bookmarksSchema = new mongoose.Schema(
       ref: 'Post',
       required: true,
     },
+
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

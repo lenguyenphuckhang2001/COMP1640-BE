@@ -9,8 +9,8 @@ const {
   deleteUser,
   getAllUser,
   uploadAvatar,
-  logout,
   verifyEmail,
+  logout,
   forgotPassword,
   changePassword,
 } = require('../../controllers/UserController');
