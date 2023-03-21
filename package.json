@@ -2,9 +2,6 @@
   "name": "comp1640-be",
   "version": "0.0.0",
   "private": true,
-  "engines": {
-    "node": ">= 14.0.0"
-  },
   "scripts": {
     "start": "node ./bin/www",
     "start:dev": "nodemon ./bin/www"

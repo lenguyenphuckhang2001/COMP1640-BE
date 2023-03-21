@@ -1,10 +1,16 @@
 const { default: mongoose } = require('mongoose');
 const CommentService = require('../services/CommentServices');
+const { sendEmail } = require('../utils/sendEmail');
 
 const createComment = async (req, res) => {
   try {
     const postId = req.params.id;
     const data = await CommentService.createComment(req.body, postId);
+    if (!data) return res.status(404).json({ message: 'Post not found' });
+
+    const message = 'Someone commented on your post';
+    await sendEmail(data.author.email, message);
+
     res.status(201).json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });

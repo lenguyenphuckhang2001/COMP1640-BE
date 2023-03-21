@@ -3,7 +3,13 @@ const PostModel = require('../database/models/Post');
 
 const createComment = async (comment, id) => {
   try {
-    const data = await CommentModel.create(comment);
+    const data = await (
+      await CommentModel.create(comment)
+    ).populate('author', {
+      username: 1,
+      email: 1,
+    });
+
     const post = await PostModel.findByIdAndUpdate(
       id,
       {

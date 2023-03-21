@@ -3,10 +3,10 @@ const TimerModel = require('../database/models/Timer');
 const isCloseDate = async (req, res, next) => {
   try {
     const closeDate = await TimerModel.findOne({ isClosed: false }).sort({ createdAt: -1 });
-    console.log('🚀 ~ file: isCloseDate.js:6 ~ isCloseDate ~ closeDate:', closeDate);
     const currentDate = new Date();
+    // if (!closeDate) return res.status(400).json({ message: 'Dont have a Academic date' });
 
-    if (closeDate?.startDate <= currentDate) {
+    if (!closeDate || closeDate?.startDate <= currentDate) {
       return next();
     }
 
@@ -23,7 +23,11 @@ const isFinalCloseDate = async (req, res, next) => {
     const closeDate = await TimerModel.findOne({ isFinal: false }).sort({ createdAt: -1 });
     const currentDate = new Date();
 
-    if (closeDate?.startDate <= currentDate || closeDate?.finalCloseDate > currentDate) {
+    if (
+      !closeDate ||
+      closeDate?.startDate <= currentDate ||
+      closeDate?.finalCloseDate > currentDate
+    ) {
       return next();
     }
 
