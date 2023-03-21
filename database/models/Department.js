@@ -10,10 +10,17 @@ const departmentSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    memberId: {
+    members: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'User',
+      required: false,
+    },
+
+    //TODO QA Cordinator
+    QACordinatorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: false,
     },
   },
   { timestamps: true },

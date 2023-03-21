@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       required: false,
-      unique: true,
     },
     username: {
       type: String,
@@ -37,11 +36,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: [Role.USER_ROLE, Role.ADMIN_ROLE, , Role.QA_ROLE, Role.QA_COORDINATOR_ROLE],
       default: Role.USER_ROLE,
-    },
-    department: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Department',
-      required: true,
     },
     verified: {
       type: Boolean,

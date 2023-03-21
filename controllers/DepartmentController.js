@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose');
 const Department = require('../database/models/Department');
+const User = require('../database/models/User');
 
 const getAllDepartments = async (req, res) => {
   try {
@@ -64,18 +65,20 @@ const deleteDepartment = async (req, res) => {
 const addMember = async (req, res) => {
   try {
     const { id } = req.params;
+    const { memberId } = req.body;
     if (!id) return res.status(400).json({ error: 'Please provide a department id' });
-    if (!req.body) return res.status(400).json({ error: 'Please provide a member' });
-    if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(400).json({ error: 'Invalid department id' });
-    const department = await Department.findById(id);
-    if (!department) return res.status(404).json({ error: 'Department not found' });
-    const member = await Department.findByIdAndUpdate(
+    if (!memberId) return res.status(400).json({ error: 'Please provide a member' });
+    const user = await User.findById(memberId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    const departmentMember = await Department.findByIdAndUpdate(
       id,
-      { $push: { members: req.body } },
+      { $push: { members: memberId } },
       { new: true },
     );
-    return res.status(201).json(member);
+    if (!departmentMember) return res.status(404).json({ error: 'Department not found' });
+
+    return res.status(201).json(departmentMember);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
