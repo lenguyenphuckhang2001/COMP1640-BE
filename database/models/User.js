@@ -39,9 +39,9 @@ const userSchema = new mongoose.Schema(
       default: Role.USER_ROLE,
     },
     department: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Department',
-      required: false,
+      required: true,
     },
     verified: {
       type: Boolean,

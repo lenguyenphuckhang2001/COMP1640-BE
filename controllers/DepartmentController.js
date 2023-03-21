@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Department = require('../database/models/Department');
 
 const getAllDepartments = async (req, res) => {
@@ -69,9 +70,11 @@ const addMember = async (req, res) => {
       return res.status(400).json({ error: 'Invalid department id' });
     const department = await Department.findById(id);
     if (!department) return res.status(404).json({ error: 'Department not found' });
-    const member = await Member.create(req.body);
-    department.members.push(member);
-    await department.save();
+    const member = await Department.findByIdAndUpdate(
+      id,
+      { $push: { members: req.body } },
+      { new: true },
+    );
     return res.status(201).json(member);
   } catch (error) {
     return res.status(500).json({ error: error.message });
