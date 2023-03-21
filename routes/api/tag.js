@@ -10,6 +10,7 @@ const {
 } = require('../../controllers/TagController');
 
 const isTagUsed = require('../../middlewares/isTagUsed');
+const { adminRole } = require('../../permissions/post');
 
 /**
  * @swagger
@@ -193,6 +194,6 @@ router.patch('/:userId', updateTag);
  */
 
 //* delete a tag
-router.delete('/:id', isTagUsed, deleteTag);
+router.delete('/:id', adminRole, isTagUsed, deleteTag);
 
 module.exports = router;

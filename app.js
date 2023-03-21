@@ -14,6 +14,8 @@ const postRouter = require('./routes/api/post');
 const bookmarkRouter = require('./routes/api/bookmarks');
 const CommentRouter = require('./routes/api/comments');
 
+const { isLoggedIn } = require('./middlewares/authMiddleware');
+
 var app = express();
 
 app.use(logger('dev'));
@@ -25,7 +27,7 @@ app.use('/images', express.static(path.join(__dirname, '/images')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/tags', tagRouter);
+app.use('/tags', isLoggedIn, tagRouter);
 app.use('/posts', postRouter);
 app.use('/bookmarks', bookmarkRouter);
 app.use('/comments', CommentRouter);
