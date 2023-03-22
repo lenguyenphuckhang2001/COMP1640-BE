@@ -17,7 +17,7 @@ const register = async (req, res, next) => {
 
     if (!newUser) return res.status(500).send('Internal server error');
 
-    const message = `please click the link below to verify your email address: ${process.env.APP_URL}/verify-email/${newUser._id}`;
+    const message = `please click the link below to verify your email address: ${process.env.APP_URL}/api/auth/verify-email/${newUser._id}`;
     await sendEmail(newUser.email, message);
 
     return res.status(200).send(newUser);
@@ -80,7 +80,7 @@ const forgotPassword = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).send('User not found');
 
-    const link = `${process.env.APP_URL}/reset-password/${user._id}`;
+    const link = `${process.env.APP_URL}/api/auth/reset-password/${user._id}`;
     const message = `Please click the link below to reset your password: ${link}`;
     await sendEmail(user.email, message);
     res.send('Please check your email to reset your password');

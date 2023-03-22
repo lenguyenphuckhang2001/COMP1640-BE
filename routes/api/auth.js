@@ -10,11 +10,9 @@ const {
   logout,
 } = require('../../controllers/authController');
 
-const { isLoggedIn } = require('../../middlewares/authMiddleware');
-
 router.post('/register', register);
 
-router.post('/login', isLoggedIn, login);
+router.post('/login', login);
 
 router.get('/verify-email/:userId', verifyEmail);
 
