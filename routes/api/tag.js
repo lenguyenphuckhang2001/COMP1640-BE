@@ -10,6 +10,7 @@ const {
 } = require('../../controllers/TagController');
 
 const isTagUsed = require('../../middlewares/isTagUsed');
+const { qaRole } = require('../../permission/author');
 
 /**
  * @swagger
@@ -116,7 +117,7 @@ router.get('/:id', getTagById);
  *             $ref: '#/components/schemas/Tag'
  */
 //* create a tag
-router.post('/', createTag);
+router.post('/', qaRole, createTag);
 
 /**
  * @swagger
