@@ -57,21 +57,22 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-// Init upload
-// const upload = multer({
-//   storage: storage,
-// }).single('avatar');
-
 //Upload avatar
 const uploadAvatar = async (req, res) => {
   //images//
   try {
     const userId = req.params.userId;
-    const image = req.files[0].path;
-    const filterPath = image.slice(6).replace(/\\/g, '/');
-    console.log('🚀 ~ file: UserController.js:71 ~ uploadAvatar ~ filterPath:', filterPath);
+    const tmpFilePath = req.file.path;
+    console.log('🚀 ~ file: UserController.js:107 ~ uploadAvatar ~ tmpFilePath:', tmpFilePath);
+    const fileName = `${Date.now()} - ${tmpFilePath.split(' - ')[1]}`;
+    const removePath = __dirname.split('controllers')[0];
+    const publicFilePath = path.join(removePath, 'public', 'uploads', fileName);
+    fs.rename(tmpFilePath, publicFilePath, (err) => {
+      if (err) return res.status(500).json({ message: err });
+    });
+    const uploadsPath = path.join('uploads', fileName);
 
-    const data = await User.findByIdAndUpdate(userId, { avatar: filterPath }, { new: true });
+    const data = await User.findByIdAndUpdate(userId, { avatar: uploadsPath }, { new: true });
     res.status(200).json({ message: 'Avatar updated successfully!', data });
   } catch (error) {
     res.status(400).json({ error: error.message });
