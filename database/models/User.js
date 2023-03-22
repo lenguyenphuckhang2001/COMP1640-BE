@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
 const { Role } = require('../../constants/role');
-const { Department } = require('../../constants/department');
 
 const userSchema = new mongoose.Schema(
   {
     avatar: {
       type: String,
       required: false,
-      unique: true,
     },
     username: {
       type: String,
@@ -36,17 +34,8 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: [Role.ADMIN_ROLE, Role.USER_ROLE, Role.QA_ROLE],
+      enum: [Role.USER_ROLE, Role.ADMIN_ROLE, , Role.QA_ROLE, Role.QA_COORDINATOR_ROLE],
       default: Role.USER_ROLE,
-    },
-    department: {
-      type: String,
-      enum: [
-        Department.IT_DEPARTMENT,
-        Department.ADMISSIONS_DEPARTMENT,
-        Department.TRAINNING_DEPARTMENT,
-      ],
-      default: Department.IT_DEPARTMENT,
     },
     verified: {
       type: Boolean,
