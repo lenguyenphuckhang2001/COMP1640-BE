@@ -63,7 +63,7 @@ const { qaRole } = require('../../permission/author');
  *                     example: Test
  */
 //* get all tags
-router.get('/', getAllTags);
+router.get('/', qaRole, getAllTags);
 
 /**
  * @swagger
@@ -151,7 +151,7 @@ router.post('/', qaRole, createTag);
  *         description: Update books.
  */
 //* update a tag
-router.patch('/:userId', updateTag);
+router.patch('/:userId', qaRole, updateTag);
 
 /**
  * @swagger
@@ -194,6 +194,6 @@ router.patch('/:userId', updateTag);
  */
 
 //* delete a tag
-router.delete('/:id', isTagUsed, deleteTag);
+router.delete('/:id', [isTagUsed, qaRole], deleteTag);
 
 module.exports = router;

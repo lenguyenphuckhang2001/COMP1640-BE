@@ -12,23 +12,24 @@ const {
   getMemberById,
   deleteMember,
 } = require('../../controllers/DepartmentController');
+const { adminRole } = require('../../permission/author');
 
 //Method GET
-router.get('/', getAllDepartments);
-router.get('/:id', getDepartmentById);
+router.get('/', adminRole, getAllDepartments);
+router.get('/:id', adminRole, getDepartmentById);
 
-router.get('/members/:id', getMembers);
-router.get('/members/:id/:memberId', getMemberById);
+router.get('/members/:id', adminRole, getMembers);
+router.get('/members/:id/:memberId', adminRole, getMemberById);
 
 //Method POST
-router.post('/', createDepartment);
-router.post('/members/:id', addMember);
+router.post('/', adminRole, createDepartment);
+router.post('/members/:id', adminRole, addMember);
 
 //Method PATCH
-router.patch('/:id', updateDepartment);
+router.patch('/:id', adminRole, updateDepartment);
 
 //Method DELETE
-router.delete('/:id', deleteDepartment);
-router.delete('/members/:id/:memberId', deleteMember);
+router.delete('/:id', adminRole, deleteDepartment);
+router.delete('/members/:id/:memberId', adminRole, deleteMember);
 
 module.exports = router;

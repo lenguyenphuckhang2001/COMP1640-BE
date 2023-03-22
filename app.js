@@ -33,10 +33,10 @@ app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/tags', isLoggedIn, tagRouter);
-app.use('/api/posts', postRouter);
-app.use('/api/bookmarks', bookmarkRouter);
+app.use('/api/posts', isLoggedIn, postRouter);
+app.use('/api/bookmarks', isLoggedIn, bookmarkRouter);
 app.use('/api/comments', isLoggedIn, commentRouter);
-app.use('/api/departments', departmentRouter);
+app.use('/api/departments', isLoggedIn, departmentRouter);
 
 //connect to database
 (async () => {

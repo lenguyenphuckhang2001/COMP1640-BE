@@ -10,9 +10,10 @@ const {
 } = require('../../controllers/UserController');
 
 const { avatarUploader } = require('../../middlewares/Uploader');
+const { adminRole } = require('../../permission/author');
 
 //METHOD GET
-router.get('/', getAllUser);
+router.get('/', adminRole, getAllUser);
 
 router.get('/:userId', getUserById);
 
@@ -20,9 +21,9 @@ router.get('/:userId', getUserById);
 router.post('/avatar/:userId', avatarUploader, uploadAvatar);
 
 //METHOD PATCH
-router.patch('/:userId', patchEditUser);
+router.patch('/:userId', adminRole, patchEditUser);
 
 //METHOD DELETE
-router.delete('/:userId', deleteUser);
+router.delete('/:userId', adminRole, deleteUser);
 
 module.exports = router;
