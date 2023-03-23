@@ -4,11 +4,11 @@ const fileUploader = require('../utils/fileUploader');
 const avatarUploader = async (req, res, next) => {
   const upload = imageUploader(
     1024 * 1024 * 5,
-    ['image/jpeg', 'image/png'],
-    'Only .png and .jpeg format allowed!',
+    ['image/jpeg', 'image/png', 'image/jpg'],
+    'Only .png and .jpeg or jpg format allowed!',
   );
 
-  upload.any()(req, res, (err) => {
+  upload.single('avatar')(req, res, (err) => {
     if (err) {
       return res.status(400).json({
         error: {
