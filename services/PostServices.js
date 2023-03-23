@@ -9,6 +9,24 @@ const getAllPosts = (options) => {
   }
 };
 
+const getAllPostsWithoutComment = () => {
+  try {
+    const posts = PostRepository.findAllPostsWithoutComment();
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAllPostsWithComment = () => {
+  try {
+    const posts = PostRepository.findAllPostsWithComment();
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getPostById = (id) => {
   try {
     const post = PostRepository.findPostById(id);
@@ -60,4 +78,6 @@ module.exports = {
   createPost,
   updatePost,
   deletePost,
+  getAllPostsWithoutComment,
+  getAllPostsWithComment,
 };
