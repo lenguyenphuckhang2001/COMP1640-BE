@@ -2,3 +2,6 @@
 
 PORT=3000
 MONGO_URL=mongodb+srv://thiengoten:Kn6w1GYUsmCeEsR3@comp1640.cujxxmk.mongodb.net/?retryWrites=true&w=majority
+CLOUDINARY_NAME=dn6jz4plo
+CLOUDINARY_API_KEY=287756144668286
+CLOUDINARY_API_SECRET=lSINk5TNxC1bJVWLCCsWQVFTxsU
