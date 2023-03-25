@@ -49,6 +49,7 @@ const login = async (req, res, next) => {
     const foundUser = await User.findOne({ email });
 
     if (!foundUser) return res.status(403).send("Can't find any user");
+    const { avatar } = foundUser;
 
     const isValidPassword = await checkPassword(password, foundUser.password);
 
@@ -64,7 +65,7 @@ const login = async (req, res, next) => {
       httpOnly: true,
     });
 
-    res.json(token);
+    return res.status(200).json({ user: { ...payload, avatar }, token });
   } catch (error) {
     console.log('🚀 ~ file: UserController.js:64 ~ login ~ error', error);
     next(error);
