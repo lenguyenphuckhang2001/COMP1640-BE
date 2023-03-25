@@ -5,6 +5,4 @@ const Role = {
   QA_COORDINATOR_ROLE: 'qa_coordinator',
 };
 
-module.exports = {
-  Role,
-};
+module.exports = Role;

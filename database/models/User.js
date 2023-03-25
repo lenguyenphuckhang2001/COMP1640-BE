@@ -1,15 +1,18 @@
 const mongoose = require('mongoose');
-const { Role } = require('../../constants/role');
+const Role = require('../../constants/role');
 
 const userSchema = new mongoose.Schema(
   {
     avatar: {
       type: String,
       required: false,
+      unique: false,
+      default: '',
     },
     username: {
       type: String,
       required: true,
+      unique: true,
     },
     fullname: {
       type: String,

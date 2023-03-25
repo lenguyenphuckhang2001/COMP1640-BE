@@ -12,6 +12,7 @@ const {
 const { fileUpload } = require('../../middlewares/Uploader');
 
 const { isCloseDate } = require('../../middlewares/isCloseDate');
+const { userRole } = require('../../permission/author');
 
 router.get('/', getAllPosts);
 

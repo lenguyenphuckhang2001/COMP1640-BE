@@ -10,6 +10,7 @@ const {
 } = require('../../controllers/TagController');
 
 const isTagUsed = require('../../middlewares/isTagUsed');
+const { qaRole } = require('../../permission/author');
 
 /**
  * @swagger
@@ -62,7 +63,7 @@ const isTagUsed = require('../../middlewares/isTagUsed');
  *                     example: Test
  */
 //* get all tags
-router.get('/', getAllTags);
+router.get('/', qaRole, getAllTags);
 
 /**
  * @swagger
@@ -116,7 +117,7 @@ router.get('/:id', getTagById);
  *             $ref: '#/components/schemas/Tag'
  */
 //* create a tag
-router.post('/', createTag);
+router.post('/', qaRole, createTag);
 
 /**
  * @swagger
@@ -150,7 +151,7 @@ router.post('/', createTag);
  *         description: Update books.
  */
 //* update a tag
-router.patch('/:userId', updateTag);
+router.patch('/:userId', qaRole, updateTag);
 
 /**
  * @swagger
@@ -193,6 +194,6 @@ router.patch('/:userId', updateTag);
  */
 
 //* delete a tag
-router.delete('/:id', isTagUsed, deleteTag);
+router.delete('/:id', [isTagUsed, qaRole], deleteTag);
 
 module.exports = router;

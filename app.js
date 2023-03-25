@@ -10,11 +10,14 @@ const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 const usersRouter = require('./routes/api/user');
+const authRouter = require('./routes/api/auth');
 const tagRouter = require('./routes/api/tag');
 const postRouter = require('./routes/api/post');
 const bookmarkRouter = require('./routes/api/bookmarks');
 const commentRouter = require('./routes/api/comments');
 const departmentRouter = require('./routes/api/departments');
+
+const { isLoggedIn } = require('./middlewares/authMiddleware');
 
 var app = express();
 
@@ -27,12 +30,13 @@ app.use('/uploads', express.static(path.join(__dirname, '/public/uploads')));
 app.use('/images', express.static(path.join(__dirname, '/images')));
 
 app.use('/', indexRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/tags', tagRouter);
-app.use('/api/posts', postRouter);
-app.use('/api/bookmarks', bookmarkRouter);
-app.use('/api/comments', commentRouter);
-app.use('/api/departments', departmentRouter);
+app.use('/api/tags', isLoggedIn, tagRouter);
+app.use('/api/posts', isLoggedIn, postRouter);
+app.use('/api/bookmarks', isLoggedIn, bookmarkRouter);
+app.use('/api/comments', isLoggedIn, commentRouter);
+app.use('/api/departments', isLoggedIn, departmentRouter);
 
 //connect to database
 (async () => {
