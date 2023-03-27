@@ -1,4 +1,6 @@
 const { default: mongoose } = require('mongoose');
+const Role = require('../constants/role');
+const User = require('../database/models/User');
 const PostService = require('../services/PostServices');
 const { sendEmail } = require('../utils/sendEmail');
 const getAllPosts = async (req, res) => {
@@ -55,9 +57,10 @@ const createPost = async (req, res) => {
     }
     const post = await PostService.createPost(data);
 
-    const QsA_EMAIL = process.env.QsA_EMAIL;
-    const message = 'Have new Post';
-    await sendEmail(QsA_EMAIL, message);
+    const message = 'A new post has been created. Please check it out';
+    const users = await User.find({ role: Role.QA_COORDINATOR_ROLE });
+    const emails = users.map((user) => user.email);
+    await sendEmail(emails, message);
 
     return res.status(201).json(post);
   } catch (error) {
