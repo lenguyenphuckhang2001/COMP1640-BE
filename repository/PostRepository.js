@@ -11,6 +11,43 @@ const findAllPosts = async (options) => {
   }
 };
 
+const findAllPostsWithoutComment = async () => {
+  try {
+    const posts = await Post.find({ comments: { $size: 0 } })
+      .populate('tags author', {
+        username: 1,
+        email: 1,
+        name: 1,
+      })
+      .populate({
+        path: 'comments',
+        select: {
+          __v: 0,
+        },
+        populate: {
+          path: 'author',
+          select: {
+            username: 1,
+            email: 1,
+          },
+        },
+      });
+
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const findAllPostsWithComment = async () => {
+  try {
+    const posts = await Post.find({ comments: { $exists: true, $ne: [] } });
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const findPostById = async (id) => {
   const post = await Post.findById(id)
     .populate('tags author', {
@@ -109,4 +146,6 @@ module.exports = {
   updatePost,
   findPostById,
   deletePost,
+  findAllPostsWithoutComment,
+  findAllPostsWithComment,
 };

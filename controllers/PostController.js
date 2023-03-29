@@ -19,8 +19,12 @@ const getAllPosts = async (req, res) => {
           select: 'username',
         },
         // {
-        //     path: 'comments',
-        //     select: 'content',
+        //   path: 'comments',
+        //   select: 'content author createdAt',
+        //   //   populate: {
+        //   //     path: 'author',
+        //   //     select: 'username',
+        //   //   },
         // },
       ],
       sort: { createdAt: -1 },
@@ -28,6 +32,26 @@ const getAllPosts = async (req, res) => {
 
     const posts = await PostService.getAllPosts(options);
     if (!posts) return res.status(400).json({ error: 'Posts not found' });
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const getAllPostsWithoutComment = async (req, res) => {
+  try {
+    const posts = await PostService.getAllPostsWithoutComment();
+    if (!posts) return res.status(400).json({ error: 'Posts no comment not found' });
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const getAllPostsWithComment = async (req, res) => {
+  try {
+    const posts = await PostService.getAllPostsWithComment();
+    if (!posts) return res.status(400).json({ error: 'Posts with comment not found' });
     return res.status(200).json(posts);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -114,4 +138,6 @@ module.exports = {
   createPost,
   updatePost,
   deletePost,
+  getAllPostsWithoutComment,
+  getAllPostsWithComment,
 };
