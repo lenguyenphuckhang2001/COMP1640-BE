@@ -31,7 +31,7 @@ app.use('/images', express.static(path.join(__dirname, '/images')));
 
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/users', isLoggedIn, usersRouter);
 app.use('/api/tags', isLoggedIn, tagRouter);
 app.use('/api/posts', isLoggedIn, postRouter);
 app.use('/api/bookmarks', isLoggedIn, bookmarkRouter);
