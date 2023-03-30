@@ -15,7 +15,7 @@ const {
 const { adminRole } = require('../../permission/author');
 
 //Method GET
-router.get('/', adminRole, getAllDepartments);
+router.get('/', getAllDepartments);
 router.get('/:id', adminRole, getDepartmentById);
 
 router.get('/members/:id', adminRole, getMembers);
@@ -30,6 +30,6 @@ router.patch('/:id', adminRole, updateDepartment);
 
 //Method DELETE
 router.delete('/:id', adminRole, deleteDepartment);
-router.delete('/members/:id/:memberId', adminRole, deleteMember);
+router.delete('/:id/members/:memberId', adminRole, deleteMember);
 
 module.exports = router;

@@ -7,4 +7,3 @@ SECRET_KEY=concacnhan
 NODEMAILER_EMAIL=legiang1199@gmail.com
 NODEMAILER_PASSWORD=anilrlqjptoiimqq
 APP_URL='http://localhost:3000/'
-QsA_EMAIL=legiang1199@gmail.com -->

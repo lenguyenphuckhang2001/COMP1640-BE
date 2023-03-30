@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
       unique: false,
-      default: '',
+      default: 'https://www.gravatar.com/avatar?d=mp',
     },
     username: {
       type: String,
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
     },
     fullname: {
       type: String,
-      require: true,
+      required: false,
     },
     password: {
       type: String,
@@ -29,11 +29,11 @@ const userSchema = new mongoose.Schema(
     },
     DoB: {
       type: Date,
-      requied: true,
+      requied: false,
     },
     phonenumber: {
       type: String,
-      requied: true,
+      required: true,
     },
     role: {
       type: String,
@@ -47,4 +47,5 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
 module.exports = mongoose.model('User', userSchema);
