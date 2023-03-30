@@ -1,4 +1,3 @@
-const { default: mongoose } = require('mongoose');
 const CommentService = require('../services/CommentServices');
 const { sendEmail } = require('../utils/sendEmail');
 
@@ -19,7 +18,7 @@ const createComment = async (req, res) => {
 
 const getAllComment = async (req, res) => {
   try {
-    const comments = await CommentService.getAllComment(req.query);
+    const comments = await CommentService.getAllComment();
     res.status(200).json(comments);
     console.log(req.query);
   } catch (error) {
@@ -31,7 +30,31 @@ const getAllCommentByPostId = async (req, res) => {
   try {
     const { postId } = req.params;
     if (!postId) return res.status(400).json({ message: 'Post id is required' });
-    const comments = await CommentService.getAllCommentByPostId(postId);
+    const { page = 1, limit = 5 } = req.query;
+    const options = {
+      page,
+      select: {
+        comments: 1,
+      },
+      limit: parseInt(limit),
+      populate: [
+        {
+          path: 'comments',
+          select: 'content createdAt updatedAt',
+          options: {
+            sort: {
+              createdAt: -1,
+            },
+          },
+          populate: {
+            path: 'author',
+            select: 'username',
+          },
+        },
+      ],
+    };
+
+    const comments = await CommentService.getAllCommentByPostId(postId, options);
     if (!comments) return res.status(404).json({ message: 'Comment not found' });
     return res.status(200).json(comments);
   } catch (error) {

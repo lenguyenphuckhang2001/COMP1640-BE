@@ -51,23 +51,15 @@ const getAllComment = async (options) => {
   }
 };
 
-const getAllCommentByPostId = async (id) => {
+const getAllCommentByPostId = async (id, options) => {
   try {
-    const comments = await PostModel.findById(id, {
-      comments: 1,
-    }).populate({
-      path: 'comments',
-      select: {
-        content: 1,
-        author: 1,
+    const comments = await PostModel.paginate(
+      {
+        _id: id,
       },
-      populate: {
-        path: 'author',
-        select: {
-          username: 1,
-        },
-      },
-    });
+      options,
+    );
+    console.log('🚀 ~ file: CommentRepository.js:62 ~ getAllCommentByPostId ~ comments:', comments);
     return comments;
   } catch (error) {
     console.log(error);

@@ -8,8 +8,17 @@ const register = async (req, res, next) => {
     let data = req.body;
 
     const user = await User.findOne({ email: data.email });
+    const username = await User.findOne({ username: data.username });
 
-    if (user) return res.status(400).send('user already exist');
+    if (user)
+      return res.status(400).json({
+        message: 'Email already exists',
+      });
+
+    if (username)
+      return res.status(400).json({
+        message: 'Username already exists',
+      });
 
     const hashedPassword = await hashPassword(data.password);
 
@@ -47,17 +56,18 @@ const login = async (req, res, next) => {
     if (!email || !password) return res.status(400).send('empty email or password');
 
     const foundUser = await User.findOne({ email });
+    console.log('🚀 ~ file: authController.js:59 ~ login ~ foundUser:', foundUser);
 
-    if (!foundUser) return res.status(403).send("Can't find any user");
+    if (!foundUser) return res.status(404).send("Can't find any user");
     const { avatar } = foundUser;
 
     const isValidPassword = await checkPassword(password, foundUser.password);
 
     if (!isValidPassword) return res.status(401).send('Password is not valid');
 
-    const { email: userEmail, role, username } = foundUser;
-
-    const payload = { email: userEmail, role, username };
+    const { email: userEmail, role, username, _id } = foundUser;
+    const userId = String(_id);
+    const payload = { email: userEmail, role, username, userId };
 
     const token = await createToken(payload);
 

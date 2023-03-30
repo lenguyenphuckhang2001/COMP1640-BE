@@ -5,7 +5,7 @@ const adminRole = (req, res, next) => {
   if (role === Role.ADMIN_ROLE) {
     next();
   } else {
-    res.status(403).send('Forbidden');
+    res.status(403).json({ message: 'You cant use this function' });
   }
 };
 

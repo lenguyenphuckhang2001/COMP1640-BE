@@ -18,18 +18,18 @@ const getCommentById = async (id) => {
   }
 };
 
-const getAllComment = async (options) => {
+const getAllComment = async () => {
   try {
-    const comments = await CommentRepository.getAllComment(options);
+    const comments = await CommentRepository.getAllComment();
     return comments;
   } catch (error) {
     console.log(error);
   }
 };
 
-const getAllCommentByPostId = (id) => {
+const getAllCommentByPostId = (id, options) => {
   try {
-    const comments = CommentRepository.getAllCommentByPostId(id);
+    const comments = CommentRepository.getAllCommentByPostId(id, options);
     return comments;
   } catch (error) {
     console.log(error);

@@ -1,5 +1,5 @@
 const UserServices = require('../services/UserServices');
-const { User } = require('../database/models/User');
+const User = require('../database/models/User');
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -27,15 +27,6 @@ const getUserById = async (req, res, next) => {
     res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });
-  }
-};
-
-const getAllUser = async (req, res, next) => {
-  try {
-    const getAllUser = await User.find({});
-    res.json(getAllUser);
-  } catch (err) {
-    res.status(400).json(err);
   }
 };
 
@@ -85,6 +76,5 @@ module.exports = {
   getUserById,
   patchEditUser,
   deleteUser,
-  getAllUser,
   uploadAvatar,
 };

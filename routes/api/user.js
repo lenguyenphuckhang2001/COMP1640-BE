@@ -5,7 +5,7 @@ const {
   getUserById,
   patchEditUser,
   deleteUser,
-  getAllUser,
+  getAllUsers,
   uploadAvatar,
 } = require('../../controllers/UserController');
 
@@ -13,7 +13,7 @@ const { avatarUploader } = require('../../middlewares/Uploader');
 const { adminRole } = require('../../permission/author');
 
 //METHOD GET
-router.get('/', adminRole, getAllUser);
+router.get('/', adminRole, getAllUsers);
 
 router.get('/:userId', getUserById);
 
