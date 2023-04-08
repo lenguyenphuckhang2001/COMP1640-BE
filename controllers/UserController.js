@@ -10,6 +10,25 @@ const getAllUsers = async (req, res, next) => {
   }
 };
 
+const getAllNormalUsers = async (req, res, next) => {
+  try {
+    const user = await UserServices.getAllNormalUsers();
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+const getAllQacordinaUsers = async (req, res, next) => {
+  try {
+    const user = await UserServices.getAllQacordinaUsers();
+    if (!user) return res.status(400).json({ message: 'Not found user!' });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 const createUser = (req, res) => {
   try {
     if (!req.body) return res.sendStatus(400);
@@ -77,4 +96,6 @@ module.exports = {
   patchEditUser,
   deleteUser,
   uploadAvatar,
+  getAllNormalUsers,
+  getAllQacordinaUsers,
 };

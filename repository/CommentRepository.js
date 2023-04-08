@@ -51,6 +51,17 @@ const getAllComment = async (options) => {
   }
 };
 
+const getAllAnonymousComment = async () => {
+  try {
+    const comments = await CommentModel.find({}).populate('author', {
+      username: 1,
+    });
+    return comments;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getAllCommentByPostId = async (id, options) => {
   try {
     const comments = await PostModel.paginate(
@@ -104,4 +115,5 @@ module.exports = {
   deleteComment,
   findCommentById,
   getAllCommentByPostId,
+  getAllAnonymousComment,
 };

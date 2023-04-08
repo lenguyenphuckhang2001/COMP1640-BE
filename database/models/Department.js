@@ -5,6 +5,7 @@ const departmentSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: true,
     },
     description: {
       type: String,
@@ -17,7 +18,7 @@ const departmentSchema = new mongoose.Schema(
     },
 
     //TODO QA Cordinator
-    QACordinatorId: {
+    QACordinator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: false,

@@ -8,6 +8,14 @@ const adminRole = (req, res, next) => {
     res.status(403).json({ message: 'You cant use this function' });
   }
 };
+const adminAndQaRole = (req, res, next) => {
+  const { role } = req.user;
+  if (role === Role.ADMIN_ROLE || role === Role.QA_ROLE) {
+    next();
+  } else {
+    res.status(403).send('Forbidden');
+  }
+};
 
 const userRole = (req, res, next) => {
   const { role } = req.user;
@@ -20,6 +28,7 @@ const userRole = (req, res, next) => {
 
 const qaRole = (req, res, next) => {
   const { role } = req.user;
+  console.log('🚀 ~ file: author.js:23 ~ qaRole ~ role:', role);
   if (role === Role.QA_ROLE) {
     next();
   } else {
@@ -36,4 +45,4 @@ const qaCoordinatorRole = (req, res, next) => {
   }
 };
 
-module.exports = { adminRole, userRole, qaRole, qaCoordinatorRole };
+module.exports = { adminRole, userRole, qaRole, qaCoordinatorRole, adminAndQaRole };

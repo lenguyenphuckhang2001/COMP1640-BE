@@ -8,18 +8,26 @@ const {
   updatePost,
   getAllPostsWithoutComment,
   getAllPostsWithComment,
+  getAllUserPosts,
+  getAllPostByTagId,
+  getAllAnonymousPosts,
 } = require('../../controllers/PostController');
 
 const { fileUpload } = require('../../middlewares/Uploader');
 
 const { isCloseDate } = require('../../middlewares/isCloseDate');
-const { userRole } = require('../../permission/author');
 
 router.get('/', getAllPosts);
+
+router.get('/anonymous', getAllAnonymousPosts);
+
+router.get('/user/:userId', getAllUserPosts);
 
 router.get('/no-comment', getAllPostsWithoutComment);
 
 router.get('/with-comments', getAllPostsWithComment);
+
+router.get('/tag/:tagId', getAllPostByTagId);
 
 router.get('/:id', getPostById);
 
