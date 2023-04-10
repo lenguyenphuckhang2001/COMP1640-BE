@@ -1,4 +1,5 @@
 var express = require('express');
+const moment = require('moment');
 
 var router = express.Router();
 const TimerModel = require('../../database/models/Timer');
@@ -17,9 +18,9 @@ router.post('/', async (req, res) => {
   try {
     const { closeDate, finalCloseDate, startDate } = req.body;
     const newCloseDate = await TimerModel.create({
-      closeDate,
-      finalCloseDate,
-      startDate,
+      closeDate: moment(closeDate).utc().format(),
+      finalCloseDate: moment(finalCloseDate).utc().format(),
+      startDate: moment(startDate).utc().format(),
     });
 
     if (!newCloseDate) return res.status(400).json({ message: 'Error creating close date' });
