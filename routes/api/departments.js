@@ -23,7 +23,7 @@ router.get('/members/:id/:memberId', adminRole, getMemberById);
 
 //Method POST
 router.post('/', adminRole, createDepartment);
-router.post('/members/:id', adminRole, addMember);
+router.post('/:id/members', adminRole, addMember);
 
 //Method PATCH
 router.patch('/:id', adminRole, updateDepartment);

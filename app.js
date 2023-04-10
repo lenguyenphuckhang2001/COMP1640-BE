@@ -37,6 +37,7 @@ app.use('/api/posts', isLoggedIn, postRouter);
 app.use('/api/bookmarks', isLoggedIn, bookmarkRouter);
 app.use('/api/comments', isLoggedIn, commentRouter);
 app.use('/api/departments', isLoggedIn, departmentRouter);
+app.use('/api/closeDate', isLoggedIn, require('./routes/api/closeDate'));
 
 //connect to database
 (async () => {
