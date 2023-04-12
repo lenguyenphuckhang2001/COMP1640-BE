@@ -11,6 +11,59 @@ const findAllPosts = async (options) => {
   }
 };
 
+const findAllPostByTagId = async (tagId) => {
+  try {
+    const posts = await Post.find(
+      {
+        tags: {
+          $in: [tagId],
+        },
+      },
+      {
+        title: 1,
+        content: 1,
+      },
+    );
+
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const findAllUserPosts = async (options, userId) => {
+  try {
+    const posts = await Post.paginate({ author: userId }, options);
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const findAllAnonymousPosts = async () => {
+  try {
+    const posts = await Post.find(
+      {
+        isAnonymous: true,
+      },
+      null,
+      {
+        sort: {
+          createdAt: -1,
+        },
+      },
+    ).populate('tags author', {
+      username: 1,
+      email: 1,
+      name: 1,
+    });
+
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const findAllPostsWithoutComment = async () => {
   try {
     const posts = await Post.find({ comments: { $size: 0 } })
@@ -148,4 +201,7 @@ module.exports = {
   deletePost,
   findAllPostsWithoutComment,
   findAllPostsWithComment,
+  findAllUserPosts,
+  findAllPostByTagId,
+  findAllAnonymousPosts,
 };

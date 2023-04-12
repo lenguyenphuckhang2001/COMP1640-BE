@@ -38,6 +38,52 @@ const getAllPosts = async (req, res) => {
   }
 };
 
+const getAllPostByTagId = async (req, res) => {
+  try {
+    const { tagId } = req.params;
+    if (!tagId) return res.status(400).json({ error: 'Tag id is required' });
+    const posts = await PostService.getAllPostByTagId(tagId);
+    if (!posts) return res.status(400).json({ error: 'Posts not found' });
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const getAllUserPosts = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { page = 1, limit = 5 } = req.query;
+    const options = {
+      page,
+      limit: parseInt(limit),
+      populate: [
+        {
+          path: 'tags',
+          select: 'name',
+        },
+      ],
+      sort: { createdAt: -1 },
+    };
+
+    const posts = await PostService.getAllUserPosts(options, userId);
+    if (!posts) return res.status(400).json({ error: 'Posts not found' });
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const getAllAnonymousPosts = async (req, res) => {
+  try {
+    const posts = await PostService.getAllAnonymousPosts();
+    if (!posts) return res.status(400).json({ error: 'Posts not found' });
+    return res.status(200).json(posts);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 const getAllPostsWithoutComment = async (req, res) => {
   try {
     const posts = await PostService.getAllPostsWithoutComment();
@@ -98,8 +144,6 @@ const updatePost = async (req, res) => {
     if (!id) return res.status(400).json({ error: 'Please provide a post id' });
     if (!req.body) return res.status(400).json({ error: 'Please provide a post' });
 
-    if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(400).json({ error: 'Invalid post id' });
     const updatedPost = await PostService.updatePost(id, req.body);
 
     return res.status(200).json(updatedPost);
@@ -140,4 +184,7 @@ module.exports = {
   deletePost,
   getAllPostsWithoutComment,
   getAllPostsWithComment,
+  getAllUserPosts,
+  getAllPostByTagId,
+  getAllAnonymousPosts,
 };

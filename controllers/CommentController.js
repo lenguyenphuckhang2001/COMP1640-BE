@@ -26,6 +26,16 @@ const getAllComment = async (req, res) => {
   }
 };
 
+const getAllAnonymousComment = async (req, res) => {
+  try {
+    const comments = await CommentService.getAllAnonymousComment();
+    if (!comments) return res.status(404).json({ message: 'Comment not found' });
+    res.status(200).json(comments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const getAllCommentByPostId = async (req, res) => {
   try {
     const { postId } = req.params;
@@ -102,4 +112,5 @@ module.exports = {
   deleteComment,
   getCommentById,
   getAllCommentByPostId,
+  getAllAnonymousComment,
 };

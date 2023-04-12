@@ -15,9 +15,16 @@ const getDepartmentById = async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) return res.status(400).json({ error: 'Please provide a department id' });
-    if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(400).json({ error: 'Invalid department id' });
-    const department = await Department.findById(id);
+    const department = await Department.findById(id, {
+      createdAt: 0,
+      updatedAt: 0,
+      __v: 0,
+      name: 0,
+      description: 0,
+    }).populate('members QACordinator', {
+      username: 1,
+      role: 1,
+    });
     if (department) return res.status(200).json(department);
     return res.status(404).json({ error: 'Department with the specified ID does not exists' });
   } catch (error) {
@@ -28,7 +35,9 @@ const getDepartmentById = async (req, res) => {
 const createDepartment = async (req, res) => {
   try {
     if (!req.body) return res.status(400).json({ error: 'Please provide a department' });
+
     const department = await Department.create(req.body);
+    if (!department) return res.status(400).json({ error: 'Department not created' });
     return res.status(201).json(department);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -40,8 +49,9 @@ const updateDepartment = async (req, res) => {
     const { id } = req.params;
     if (!id) return res.status(400).json({ error: 'Please provide a department id' });
     if (!req.body) return res.status(400).json({ error: 'Please provide a department' });
-    if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(400).json({ error: 'Invalid department id' });
+
+    const existsUser = await Department.findOne({ members: { $in: [req.body.members] } });
+    if (existsUser) return res.status(400).json({ error: 'User already exists in the department' });
     const updatedDepartment = await Department.findByIdAndUpdate(id, req.body, { new: true });
 
     return res.status(200).json(updatedDepartment);
@@ -65,17 +75,17 @@ const deleteDepartment = async (req, res) => {
 const addMember = async (req, res) => {
   try {
     const { id } = req.params;
-    const { memberId } = req.body;
+    const { members } = req.body;
     if (!id) return res.status(400).json({ error: 'Please provide a department id' });
-    if (!memberId) return res.status(400).json({ error: 'Please provide a member' });
-    const user = await User.findById(memberId);
-    if (!user) return res.status(404).json({ error: 'User not found' });
+    const existsUser = await Department.findOne({ members: { $in: members } });
+    if (existsUser) return res.status(400).json({ error: 'User already exists in the department' });
 
     const departmentMember = await Department.findByIdAndUpdate(
       id,
-      { $push: { members: memberId } },
+      { $push: { members: members } },
       { new: true },
     );
+
     if (!departmentMember) return res.status(404).json({ error: 'Department not found' });
 
     return res.status(201).json(departmentMember);
@@ -122,19 +132,14 @@ const deleteMember = async (req, res) => {
     const { id, memberId } = req.params;
     if (!id) return res.status(400).json({ error: 'Please provide a department id' });
     if (!memberId) return res.status(400).json({ error: 'Please provide a member id' });
-    if (!mongoose.Types.ObjectId.isValid(id))
-      return res.status(400).json({ error: 'Invalid department id' });
-    if (!mongoose.Types.ObjectId.isValid(memberId))
-      return res.status(400).json({ error: 'Invalid member id' });
-    const department = await Department.findById(id);
-    if (!department) return res.status(404).json({ error: 'Department not found' });
-    const member = await department.members.id(memberId);
-    if (member) {
-      member.remove();
-      await department.save();
-      return res.status(200).json(member);
-    }
-    return res.status(404).json({ error: 'Member not found' });
+
+    const RemoveUserInDepartment = await Department.findByIdAndUpdate(
+      id,
+      { $pull: { members: memberId } },
+      { new: true },
+    );
+    if (!RemoveUserInDepartment) return res.status(404).json({ error: 'Department not found' });
+    return res.status(200).json(RemoveUserInDepartment);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

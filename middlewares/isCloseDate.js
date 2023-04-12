@@ -3,14 +3,15 @@ const TimerModel = require('../database/models/Timer');
 const isCloseDate = async (req, res, next) => {
   try {
     const closeDate = await TimerModel.findOne({ isClosed: false }).sort({ createdAt: -1 });
+    console.log('🚀 ~ file: isCloseDate.js:6 ~ isCloseDate ~ closeDate:', closeDate);
     const currentDate = new Date();
-    // if (!closeDate) return res.status(400).json({ message: 'Dont have a Academic date' });
+    if (!closeDate) return res.status(400).json({ message: 'Dont have a Academic date' });
 
-    if (!closeDate || closeDate?.startDate <= currentDate) {
+    if (closeDate?.startDate <= currentDate || closeDate?.closeDate > currentDate) {
       return next();
     }
 
-    if (closeDate?.closeDate < currentDate) {
+    if (closeDate?.closeDate <= currentDate && closeDate?.startDate > currentDate) {
       return res.status(400).json({ error: 'Close date is active' });
     }
   } catch (error) {
@@ -23,15 +24,11 @@ const isFinalCloseDate = async (req, res, next) => {
     const closeDate = await TimerModel.findOne({ isFinal: false }).sort({ createdAt: -1 });
     const currentDate = new Date();
 
-    if (
-      !closeDate ||
-      closeDate?.startDate <= currentDate ||
-      closeDate?.finalCloseDate > currentDate
-    ) {
+    if (closeDate?.startDate <= currentDate || closeDate?.finalCloseDate > currentDate) {
       return next();
     }
 
-    if (closeDate?.finalCloseDate < currentDate) {
+    if (closeDate?.finalCloseDate <= currentDate) {
       return res.status(400).json({ error: "Final close date is active so can't create Comment" });
     }
   } catch (error) {

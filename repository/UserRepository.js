@@ -1,4 +1,4 @@
-const { QA_COORDINATOR_ROLE, QA_ROLE } = require('../constants/role');
+const { QA_COORDINATOR_ROLE, QA_ROLE, ADMIN_ROLE, USER_ROLE } = require('../constants/role');
 const UserModel = require('../database/models/User');
 
 const findAllUsers = async () => {
@@ -7,6 +7,50 @@ const findAllUsers = async () => {
       role: ['user', QA_COORDINATOR_ROLE, QA_ROLE],
     },
     null,
+    {
+      sort: {
+        createdAt: -1,
+      },
+    },
+  );
+  return users;
+};
+
+const findAllNormalUsers = async () => {
+  const users = await UserModel.find(
+    {
+      role: USER_ROLE,
+    },
+    {
+      password: 0,
+      verified: 0,
+      createdAt: 0,
+      updatedAt: 0,
+      avatar: 0,
+      role: 0,
+    },
+    {
+      sort: {
+        createdAt: -1,
+      },
+    },
+  );
+  return users;
+};
+
+const findAllQacordinaUsers = async () => {
+  const users = await UserModel.find(
+    {
+      role: QA_COORDINATOR_ROLE,
+    },
+    {
+      password: 0,
+      verified: 0,
+      createdAt: 0,
+      updatedAt: 0,
+      avatar: 0,
+      role: 0,
+    },
     {
       sort: {
         createdAt: -1,
@@ -38,4 +82,6 @@ module.exports = {
   findAllUsers,
   createUser,
   findUserById,
+  findAllNormalUsers,
+  findAllQacordinaUsers,
 };

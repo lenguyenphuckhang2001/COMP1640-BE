@@ -9,6 +9,33 @@ const getAllPosts = (options) => {
   }
 };
 
+const getAllPostByTagId = (tagId) => {
+  try {
+    const posts = PostRepository.findAllPostByTagId(tagId);
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAllUserPosts = (options, userId) => {
+  try {
+    const posts = PostRepository.findAllUserPosts(options, userId);
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAllAnonymousPosts = () => {
+  try {
+    const posts = PostRepository.findAllAnonymousPosts();
+    return posts;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getAllPostsWithoutComment = () => {
   try {
     const posts = PostRepository.findAllPostsWithoutComment();
@@ -80,4 +107,7 @@ module.exports = {
   deletePost,
   getAllPostsWithoutComment,
   getAllPostsWithComment,
+  getAllUserPosts,
+  getAllPostByTagId,
+  getAllAnonymousPosts,
 };

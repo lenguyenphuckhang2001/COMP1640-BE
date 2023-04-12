@@ -27,6 +27,15 @@ const getAllComment = async () => {
   }
 };
 
+const getAllAnonymousComment = async () => {
+  try {
+    const comments = await CommentRepository.getAllAnonymousComment();
+    return comments;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getAllCommentByPostId = (id, options) => {
   try {
     const comments = CommentRepository.getAllCommentByPostId(id, options);
