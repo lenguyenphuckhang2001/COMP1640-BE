@@ -6,7 +6,7 @@ const TimerModel = require('../../database/models/Timer');
 
 router.get('/', async (req, res) => {
   try {
-    const closeDate = await TimerModel.find({});
+    const closeDate = await TimerModel.find({}).sort({ createdAt: -1 });
     if (!closeDate) return res.status(400).json({ message: 'Error getting close date' });
     res.status(200).json(closeDate);
   } catch (error) {
@@ -32,6 +32,14 @@ router.post('/', async (req, res) => {
 
 // Hello W
 router.patch('/:id', (req, res) => {});
-router.delete('/:id', (req, res) => {});
+router.delete('/:id', async (req, res) => {
+  try {
+    const closeDate = await TimerModel.findByIdAndDelete(req.params.id);
+    if (!closeDate) return res.status(400).json({ message: 'Error deleting close date' });
+    res.status(200).json({ message: 'Close date deleted' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 module.exports = router;
